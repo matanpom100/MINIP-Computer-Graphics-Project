@@ -10,9 +10,6 @@ public class Vector extends Point {
         if (Util.isZero(x) && Util.isZero(y) && Util.isZero(z)) {
             throw new IllegalArgumentException("Vector head cannot be Point(0,0,0)");
         }
-
-
-
     }
 
     public Vector(Double3 xyz) {
