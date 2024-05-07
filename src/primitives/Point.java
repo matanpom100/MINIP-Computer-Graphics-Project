@@ -37,4 +37,24 @@ public class Point {
                 '}';
     }
 
+
+    public Vector subtract(Point other) {
+        return new Vector( xyz.subtract(other.xyz) );
+    }
+
+    public Point add(Vector v) {
+        return new Point( xyz.add(v.xyz) );
+    }
+
+    public double distance(Point other) {
+        return Math.sqrt(distanceSquared(other));
+    }
+
+
+
+
+
+
+
+
 }
