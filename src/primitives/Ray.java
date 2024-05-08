@@ -1,4 +1,5 @@
 package primitives;
+
 import primitives.Point;
 import primitives.Vector;
 
@@ -16,6 +17,7 @@ public class Ray {
 
     /**
      * Ray constructor receiving a point and a vector
+     *
      * @param head
      * @param direction
      */
@@ -26,14 +28,14 @@ public class Ray {
 
     @Override
     public String toString() {
-        return super.toString()+"\n Ray:" +
+        return super.toString() + "\n Ray:" +
                 "head=" + head +
                 ", direction=" + direction;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return  obj instanceof Ray other &&
+        return obj instanceof Ray other &&
                 head.equals(other.head) && direction.equals(other.direction);
     }
 }

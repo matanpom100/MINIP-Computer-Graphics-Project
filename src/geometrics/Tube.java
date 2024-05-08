@@ -9,15 +9,16 @@ import primitives.Vector;
  * The tube is infinite in both directions along the axis
  * The tube is a radial geometry
  * The tube does not have a normal vector
- * */
-public class Tube extends RadialGeometry{
+ */
+public class Tube extends RadialGeometry {
     protected final Ray axis;
 
 
     /**
      * Tube constructor based on a radius and axis
+     *
      * @param radius the radius of the tube
-     * @param axis the axis of the tube
+     * @param axis   the axis of the tube
      */
     public Tube(double radius, Ray axis) {
         super(radius);
@@ -25,7 +26,6 @@ public class Tube extends RadialGeometry{
     }
 
     /**
-
      * @param point
      * @return null
      */
