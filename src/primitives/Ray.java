@@ -2,11 +2,23 @@ package primitives;
 import primitives.Point;
 import primitives.Vector;
 
+
+/**
+ * Ray class represents a ray in 3D Cartesian coordinate system
+ * represented by a point and a direction
+ */
+
+
 public class Ray {
 
     final Point head;
     final Vector direction;
 
+    /**
+     * Ray constructor receiving a point and a vector
+     * @param head
+     * @param direction
+     */
     public Ray(Point head, Vector direction) {
         this.head = head;
         this.direction = direction.normalize();
