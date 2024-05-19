@@ -1,3 +1,8 @@
+
+
+
+
+
 package test;
 
 import static java.lang.System.out;
@@ -8,7 +13,8 @@ import primitives.*;
 
 /**
  * Test program for the 1st stage
- * @author Dan Zilberstein
+ * @author Matan Aminov 326636545
+ * @author Eitan Klein 215013186
  */
 public final class Main {
 
