@@ -32,13 +32,12 @@ public class Plane implements Geometry {
      */
     public Plane(Point p1, Point p2, Point p3) {
         this.q = p1;
-        this.normal = null;
+        this.normal = p2.subtract(p1).crossProduct(p3.subtract(p1)).normalize();
     }
 
 
     @Override
     public Vector getNormal(Point point) {
-
         return normal;
     }
 

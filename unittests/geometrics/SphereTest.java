@@ -1,6 +1,7 @@
 package geometrics;
 
 import org.junit.jupiter.api.Test;
+import primitives.Point;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,5 +15,9 @@ class SphereTest {
      */
     @Test
     void getNormal() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple single test here
+        Sphere s = new Sphere(1, new Point(0, 0, 0));
+        assertEquals(new Point(1, 0, 0), s.getNormal(new Point(1, 0, 0)), "Bad normal to sphere");
     }
 }
