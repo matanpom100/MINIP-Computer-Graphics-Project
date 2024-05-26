@@ -30,7 +30,10 @@ public class Tube extends RadialGeometry {
      * @param point
      * @return the normal vector to the tube at the given point
      */
-    public Vector getNormal(Point point) {
+    public Vector testGetNormal(Point point) {
+
+        if (point.equals(axis.getHead())) throw new IllegalArgumentException("Point on the tube's axis");
+
         double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));
         Point o = axis.getHead().add(axis.getDirection().scale(t));
         return point.subtract(o).normalize();

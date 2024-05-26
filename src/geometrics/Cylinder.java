@@ -3,6 +3,7 @@ package geometrics;
 import primitives.Vector;
 import primitives.Ray;
 import primitives.Point;
+import primitives.Util;
 
 /**
  * Cylinder class represents a cylinder in 3D Cartesian coordinate system
@@ -32,13 +33,13 @@ public class Cylinder extends Tube {
         Vector v = axis.getDirection();
         Point p0 = axis.getHead();
 
-        if(point.equals(p0)) return v.scale(-1);
+        if(point.equals(p0)) return v.scale(-1).normalize();
 
         double t = v.dotProduct(point.subtract(p0));
 
-        if (t == 0) return v.scale(-1);
+        if (Util.isZero(t)) return v.scale(-1).normalize();
 
-        if(t == height) return v;
+        if(Util.isZero(height-t)) return v.normalize();
 
         return super.getNormal(point);
 

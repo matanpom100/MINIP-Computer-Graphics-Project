@@ -26,5 +26,15 @@ class TriangleTest {
         t = new Triangle(new Point(0, 0, 0), new Point(0, 1, 0), new Point(1, 0, 0));
         assertEquals(new Vector(0, 0, -1).normalize(), t.getNormal(new Point(0, 0, 0)), "Bad normal to triangle");
 
+        // =============== Boundary Values Tests ==================
+        // TC03: if the three points are on the same line, the normal is the cross product of the two vectors
+
+        try {
+            t = new Triangle(new Point(0, 0, 0), new Point(1, 0, 0), new Point(2, 0, 0));
+            fail("Failed constructing a triangle with three points on the same line");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
     }
 }

@@ -14,36 +14,41 @@ class VectorTest {
 
 
     /**
-     *  Test method for  {@link primitives.Vector#subtract(Point)}
+     * Test method for {@link primitives.Vector#Vector(double, double, double)} (primitives.Vector)}   .
      */
 
+
     @Test
-    void subtruct(){
-        Vector v1 = new Vector(1, 2, 3);
 
-
+    void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Simple test
-        assertEquals(new Vector(-1, -1, -1), v1.subtract(new Vector(2, 3, 4)), "subtract() wrong result");
+        try {
+            new Vector(1, 2, 3);
+        } catch (IllegalArgumentException e) {
+            fail("Failed constructing a correct Vector");
+        }
+
+
 
         // TC02: Test negative vector
-
-        assertEquals(new Vector(3, 5, 7), v1.subtract(new Vector(-2, -3, -4)), "subtract() wrong result");
+        try {
+            new Vector(-1, -2, -3);
+        } catch (IllegalArgumentException e) {
+            fail("Failed constructing a correct Vector");
+        }
 
         // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
 
+        // TC03: Test zero vector
         try {
-            v1.subtract(new Vector(0, 0, 0));
-            fail("subtract() for zero vector does not throw an exception");
+            new Vector(0, 0, 0);
+            fail("Constructed a zero vector");
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
 
     }
-
-
-
 
 
 
@@ -61,14 +66,15 @@ class VectorTest {
         assertEquals(new Vector(-1, -2, 3), new Vector(-1, -1, 1).add(new Vector(0, -1, 2)), "add() wrong result");
 
         // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
+        // TC03: Test oppsites vectors
 
         try {
-            new Vector(0, 0, 0).add(new Vector(0, 0, 0));
-            fail("add() for zero vector does not throw an exception");
+            new Vector(1, 1, 1).add(new Vector(-1, -1, -1));
+            fail("add() for opposite vectors does not throw an exception");
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
+
 
     }
 
@@ -88,11 +94,10 @@ class VectorTest {
         assertEquals(new Vector(-1, -2, -3), new Vector(1, 2, 3).scale(-1), "scale() wrong result");
 
         // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
-
+        // TC03: Test zero scalar
         try {
-            new Vector(0, 0, 0).scale(1);
-            fail("scale() for zero vector does not throw an exception");
+            new Vector(1, 2, 3).scale(0);
+            fail("scale() for zero scalar does not throw an exception");
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
@@ -114,15 +119,14 @@ class VectorTest {
         assertEquals(-20, new Vector(1, 2, 3).dotProduct(new Vector(-2, -3, -4)), "dotProduct() wrong result");
 
         // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
+        // TC03: Test orthogonal vectors
+        assertEquals(0, new Vector(1, 0, 0).dotProduct(new Vector(0, 0, 1)), "dotProduct() for orthogonal vectors is not zero");
+
+        // TC04: Test one normalized vector
+
+        assertEquals(1, new Vector(1, 0, 0).dotProduct(new Vector(1, 0, 0)), "dotProduct() for normalized vector is not 1");
 
 
-        try {
-            new Vector(0, 0, 0).dotProduct(new Vector(0, 0, 0));
-            fail("dotProduct() for zero vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
     }
 
     /**
@@ -144,14 +148,44 @@ class VectorTest {
 
         // =============== Boundary Values Tests ==================
 
-        // TC03: Test zero vector
+        // TC03: Test same vectors
 
         try {
-            new Vector(0, 0, 0).crossProduct(new Vector(0, 0, 0));
-            fail("crossProduct() for zero vector does not throw an exception");
+            new Vector(1, 2, 3).crossProduct(new Vector(1, 2, 3));
+            fail("crossProduct() for same vector does not throw an exception");
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
+
+        // TC04: Test opposite vectors
+
+        try {
+            new Vector(1, 2, 3).crossProduct(new Vector(-1, -2, -3));
+            fail("crossProduct() for opposite vector does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        // TC05: Test same direction vectors
+
+        try{
+            new Vector(1, 2, 3).crossProduct(new Vector(2, 4, 6));
+            fail("crossProduct() for same direction vector does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        // TC06: Test opposite direction vectors bur equals
+
+        try{
+            new Vector(1, 2, 3).crossProduct(new Vector(-2, -4, -6));
+            fail("crossProduct() for opposite direction vector does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+
+
 
 
     }
@@ -169,14 +203,7 @@ class VectorTest {
         // TC02: Test negative vector
         assertEquals(14, new Vector(-1, -2, -3).lengthSquared(), "lengthSquared() wrong result");
 
-        // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
-        try {
-            new Vector(0, 0, 0).lengthSquared();
-            fail("lengthSquared() for zero vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+
 
 
     }
@@ -194,14 +221,7 @@ class VectorTest {
         // TC02: Test negative vector
         assertEquals(Math.sqrt(14), new Vector(-1, -2, -3).length(), "length() wrong result");
 
-        // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
-        try {
-            new Vector(0, 0, 0).length();
-            fail("length() for zero vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+
 
     }
 
@@ -215,6 +235,10 @@ class VectorTest {
         assertEquals(new Vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)), new Vector(1, 2, 3).normalize(), "normalize() wrong result");
         // TC02: Test negative vector
         assertEquals(new Vector(-1 / Math.sqrt(14), -2 / Math.sqrt(14), -3 / Math.sqrt(14)), new Vector(-1, -2, -3).normalize(), "normalize() wrong result");
+
+        // =============== Boundary Values Tests ==================
+        // TC03: Test normalized vector
+        assertEquals(new Vector(1, 0, 0), new Vector(1, 0, 0).normalize(), "normalize() wrong result");
 
     }
 
@@ -232,14 +256,25 @@ class VectorTest {
         assertEquals(new Vector(3, 5, 7), v1.subtract(new Vector(-2, -3, -4)), "subtract() wrong result");
 
         // =============== Boundary Values Tests ==================
-        // TC03: Test zero vector
+        // TC03: same direction vectors
 
         try {
-            v1.subtract(new Vector(0, 0, 0));
-            fail("subtract() for zero vector does not throw an exception");
+            v1.subtract(new Vector(2, 4, 6));
+            fail("subtract() for same direction vector does not throw an exception");
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
+
+        // TC04: equal vectors
+
+        try {
+            v1.subtract(new Vector(1, 2, 3));
+            fail("subtract() for equal vectors does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+
 
     }
 
