@@ -12,6 +12,41 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VectorTest {
 
+
+    /**
+     *  Test method for  {@link primitives.Vector#subtract(Point)}
+     */
+
+    @Test
+    void subtruct(){
+        Vector v1 = new Vector(1, 2, 3);
+
+
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple test
+        assertEquals(new Vector(-1, -1, -1), v1.subtract(new Vector(2, 3, 4)), "subtract() wrong result");
+
+        // TC02: Test negative vector
+
+        assertEquals(new Vector(3, 5, 7), v1.subtract(new Vector(-2, -3, -4)), "subtract() wrong result");
+
+        // =============== Boundary Values Tests ==================
+        // TC03: Test zero vector
+
+        try {
+            v1.subtract(new Vector(0, 0, 0));
+            fail("subtract() for zero vector does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+    }
+
+
+
+
+
+
     /**
      * Test method for {@link primitives.Vector#add(Vector)} (primitives.Vector)}   .
      */
