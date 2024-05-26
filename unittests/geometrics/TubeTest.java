@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link geometrics.Tube}
+ * @author Matan and Eitan
  */
 class TubeTest {
 
@@ -17,7 +18,7 @@ class TubeTest {
      * Test method for {@link geometrics.Tube#getNormal(primitives.Point)}   .
      */
     @Test
-    void getNormal() {
+    void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: There is a simple single test here
         Tube tube = new Tube(1, new Ray(new Point(1, 1, 1), new Vector(0, 1, 0)));

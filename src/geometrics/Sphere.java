@@ -7,7 +7,7 @@ import primitives.Vector;
 /**
  * Sphere class represents a sphere in 3D Cartesian coordinate system
  *
- * @author Me
+ * @author Matan and Eitan
  */
 public class Sphere extends RadialGeometry {
     final Point center;
@@ -23,10 +23,15 @@ public class Sphere extends RadialGeometry {
         this.center = center;
     }
 
+    /**
+     * @param point
+     * @return the normal vector to the sphere at the given point
+     * @throws IllegalArgumentException if the point is not on the sphere
+     */
     @Override
     public Vector getNormal(Point point) {
-        if (point.distance(center) != radius)
+        if (point.distance(center) != radius)//if the point is not on the sphere
             throw new IllegalArgumentException("The point is not on the sphere");
-        return point.subtract(center).normalize();
+        return point.subtract(center).normalize();//return the normal vector
     }
 }

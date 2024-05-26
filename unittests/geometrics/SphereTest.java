@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link geometrics.Cylinder}.
+ * @author Matan and Eitan
  */
 class SphereTest {
 
@@ -14,7 +15,7 @@ class SphereTest {
      * Test method for {@link geometrics.Sphere#getNormal(primitives.Point)}   .
      */
     @Test
-    void getNormal() {
+    void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Simple single test here
         Sphere s = new Sphere(1, new Point(0, 0, 0));

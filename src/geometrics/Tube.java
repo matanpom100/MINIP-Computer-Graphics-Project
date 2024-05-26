@@ -32,11 +32,11 @@ public class Tube extends RadialGeometry {
      */
     public Vector testGetNormal(Point point) {
 
-        if (point.equals(axis.getHead())) throw new IllegalArgumentException("Point on the tube's axis");
+        if (point.equals(axis.getHead())) throw new IllegalArgumentException("Point on the tube's axis");//if the point is on the axis
 
-        double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));
-        Point o = axis.getHead().add(axis.getDirection().scale(t));
-        return point.subtract(o).normalize();
+        double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));//t is the projection of the point on the axis
+        Point o = axis.getHead().add(axis.getDirection().scale(t));//o is the point on the axis that is closest to the point
+        return point.subtract(o).normalize();//the normal vector is the vector from the point to o
     }
 
 }

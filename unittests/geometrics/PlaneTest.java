@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link geometrics.Plane}
+ * Matan and Eitan
  */
 class PlaneTest {
 

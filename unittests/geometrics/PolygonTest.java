@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link geometrics.Cylinder}.
+ * @author Matan and Eitan
  */
 class PolygonTest {
 
@@ -42,10 +43,10 @@ class PolygonTest {
 
 
     /**
-     * Test method for {@link geometrics.Polygon#getNormal(primitives.Point)}   .
+     * Test method for {@link geometrics.Polygon#getNormal(primitives.Point)}
      */
     @Test
-    void getNormal() {
+    void testGetNormal() {
 
 
 
