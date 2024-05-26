@@ -38,4 +38,14 @@ public class Ray {
         return obj instanceof Ray other &&
                 head.equals(other.head) && direction.equals(other.direction);
     }
+
+
+    public Vector getDirection() {
+        return direction;
+    }
+
+    public Point getHead() {
+        return head;
+    }
+
 }

@@ -8,11 +8,5 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test class for {@link geometrics.Cylinder}.
  */
 class RadialGeometryTest {
-
-    /**
-     * Test method for {@link geometrics.RadialGeometry#getNormal(primitives.Point)}   .
-     */
-    @Test
-    void getNormal() {
-    }
+    
 }

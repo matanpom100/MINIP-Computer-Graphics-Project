@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PointTest {
 
+
     /**
      * Test method for {@link primitives.Point#distanceSquared(Point)}   .
      */

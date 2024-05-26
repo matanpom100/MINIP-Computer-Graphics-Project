@@ -1,6 +1,9 @@
 package geometrics;
 
 import org.junit.jupiter.api.Test;
+import primitives.Double3;
+import primitives.Point;
+import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,13 +16,10 @@ class PlaneTest {
      * Test method for {@link geometrics.Plane#getNormal(primitives.Point)}   .
      */
     @Test
-    void getNormal() {
-    }
-
-    /**
-     * Test method for {@link geometrics.Plane#getNormal(primitives.Point)}   .
-     */
-    @Test
     void testGetNormal() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: There is a simple single test here
+        Plane p = new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
+        assertEquals(p.getNormal(new Point(1, 2, 3)), new Vector(new Double3(1, 1, 1)).normalize(), "Bad normal to plane");
     }
 }

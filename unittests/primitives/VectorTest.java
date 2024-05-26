@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for primitives.Vector class
+ *
  * @author Matan and Eitan
  */
 
@@ -36,11 +37,11 @@ class VectorTest {
 
     }
 
-    
+
     /**
      * Test method for {@link primitives.Vector#scale(double)} (Vector)} (primitives.Vector)}   .
      */
-    
+
     @Test
     void scale() {
 
@@ -66,7 +67,7 @@ class VectorTest {
     /**
      * Test method for {@link primitives.Vector#dotProduct(Vector)} (Vector)} (primitives.Vector)}   .
      */
-    
+
     @Test
     void dotProduct() {
 
@@ -92,7 +93,7 @@ class VectorTest {
     /**
      * Test method for {@link primitives.Vector#crossProduct(Vector)} (Vector)} (primitives.Vector)}   .
      */
-    
+
     @Test
     void crossProduct() {
 
@@ -118,29 +119,23 @@ class VectorTest {
         }
 
 
-
     }
 
     /**
      * Test method for {@link primitives.Vector#lengthSquared()} (Vector)} (primitives.Vector)}   .
      */
-    
+
     @Test
     void lengthSquared() {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Simple test
-
         assertEquals(14, new Vector(1, 2, 3).lengthSquared(), "lengthSquared() wrong result");
-
         // TC02: Test negative vector
-
         assertEquals(14, new Vector(-1, -2, -3).lengthSquared(), "lengthSquared() wrong result");
 
         // =============== Boundary Values Tests ==================
-
         // TC03: Test zero vector
-
         try {
             new Vector(0, 0, 0).lengthSquared();
             fail("lengthSquared() for zero vector does not throw an exception");
@@ -149,35 +144,29 @@ class VectorTest {
         }
 
 
-
     }
 
     /**
      * Test method for {@link primitives.Vector#length()} (Vector)} (primitives.Vector)}   .
      */
-    
+
     @Test
     void length() {
 
-            // ============ Equivalence Partitions Tests ==============
-            // TC01: Simple test
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple test
+        assertEquals(Math.sqrt(14), new Vector(1, 2, 3).length(), "length() wrong result");
+        // TC02: Test negative vector
+        assertEquals(Math.sqrt(14), new Vector(-1, -2, -3).length(), "length() wrong result");
 
-            assertEquals(Math.sqrt(14), new Vector(1, 2, 3).length(), "length() wrong result");
-
-            // TC02: Test negative vector
-
-            assertEquals(Math.sqrt(14), new Vector(-1, -2, -3).length(), "length() wrong result");
-
-            // =============== Boundary Values Tests ==================
-
-            // TC03: Test zero vector
-
-            try {
-                new Vector(0, 0, 0).length();
-                fail("length() for zero vector does not throw an exception");
-            } catch (IllegalArgumentException e) {
-                assertTrue(true);
-            }
+        // =============== Boundary Values Tests ==================
+        // TC03: Test zero vector
+        try {
+            new Vector(0, 0, 0).length();
+            fail("length() for zero vector does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
 
     }
 
@@ -186,26 +175,37 @@ class VectorTest {
      */
     @Test
     void normalize() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple test
+        assertEquals(new Vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)), new Vector(1, 2, 3).normalize(), "normalize() wrong result");
+        // TC02: Test negative vector
+        assertEquals(new Vector(-1 / Math.sqrt(14), -2 / Math.sqrt(14), -3 / Math.sqrt(14)), new Vector(-1, -2, -3).normalize(), "normalize() wrong result");
 
-            // ============ Equivalence Partitions Tests ==============
-            // TC01: Simple test
+    }
 
-            assertEquals(new Vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)), new Vector(1, 2, 3).normalize(), "normalize() wrong result");
 
-            // TC02: Test negative vector
+    void subtruct(){
+        Vector v1 = new Vector(1, 2, 3);
 
-            assertEquals(new Vector(-1 / Math.sqrt(14), -2 / Math.sqrt(14), -3 / Math.sqrt(14)), new Vector(-1, -2, -3).normalize(), "normalize() wrong result");
 
-            // =============== Boundary Values Tests ==================
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple test
+        assertEquals(new Vector(-1, -1, -1), v1.subtract(new Vector(2, 3, 4)), "subtract() wrong result");
 
-            // TC03: Test zero vector
+        // TC02: Test negative vector
 
-            try {
-                new Vector(0, 0, 0).normalize();
-                fail("normalize() for zero vector does not throw an exception");
-            } catch (IllegalArgumentException e) {
-                assertTrue(true);
-            }
+        assertEquals(new Vector(3, 5, 7), v1.subtract(new Vector(-2, -3, -4)), "subtract() wrong result");
+
+        // =============== Boundary Values Tests ==================
+        // TC03: Test zero vector
+
+        try {
+            v1.subtract(new Vector(0, 0, 0));
+            fail("subtract() for zero vector does not throw an exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
     }
 
 

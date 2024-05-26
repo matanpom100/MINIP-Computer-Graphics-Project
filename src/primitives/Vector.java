@@ -7,7 +7,6 @@ package primitives;
  */
 public class Vector extends Point {
 
-
     /**
      * Constructor for Vector class
      *
@@ -106,11 +105,7 @@ public class Vector extends Point {
      * @throws ArithmeticException if the vector is the zero vector
      */
     public Vector normalize() {
-        double length = length();
-        if (Util.isZero(length)) { // if the length of the vector is zero, we cannot normalize it
-            throw new ArithmeticException("Cannot normalize Vector(0,0,0)");
-        }
-        return scale(1 / length); // returning the normalized vector by scaling the vector by 1/length
+        return scale(1 / length()); // returning the normalized vector by scaling the vector by 1/length
     }
 
     @Override

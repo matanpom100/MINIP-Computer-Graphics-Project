@@ -19,5 +19,13 @@ class SphereTest {
         // TC01: Simple single test here
         Sphere s = new Sphere(1, new Point(0, 0, 0));
         assertEquals(new Point(1, 0, 0), s.getNormal(new Point(1, 0, 0)), "Bad normal to sphere");
+
+        // =============== Boundary Values Tests ==================
+        try {
+            s.getNormal(new Point(0, 2, 0));
+            fail("Point out of sphere should throw exception");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
     }
 }

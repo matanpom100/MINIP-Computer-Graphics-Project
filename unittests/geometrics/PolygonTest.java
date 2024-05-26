@@ -12,6 +12,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class PolygonTest {
 
     /**
+     * Test method for {@link geometrics.Polygon#Polygon(primitives.Point[])}   .
+     */
+    @Test
+    void testPolygon() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Points on the same line
+        try {
+            new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9));
+            fail("Constructed a polygon with three points on the same line");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+        // TC02: Test if the points not on the same plane
+        try {
+            new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9), new Point(10, 11, 12));
+            fail("Constructed a polygon with points not on the same plane");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+
+
+    /**
      * Test method for {@link geometrics.Polygon#getNormal(primitives.Point)}   .
      */
     @Test
@@ -23,18 +47,5 @@ class PolygonTest {
         // TC02: Simple test
         polygon = new Triangle(new Point(0, 0, 0), new Point(0, 1, 0), new Point(1, 0, 0));
         assertEquals(new Vector(0, 0, -1).normalize(), polygon.getNormal(new Point(0, 0, 0)), "Bad normal to triangle");
-
-        // =============== Boundary Values Tests ==================
-        try {
-            polygon = new Triangle(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9));
-            assertEquals(new Vector(3, -6, 3).normalize(), polygon.getNormal(new Point(1, 2, 3)), "Bad normal to triangle");
-            fail("Constructed a triangle with 0 area");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
-
-
-
-
-    }
+}
 }

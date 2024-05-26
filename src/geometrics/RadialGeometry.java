@@ -2,6 +2,7 @@ package geometrics;
 
 import primitives.Point;
 
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -23,9 +24,10 @@ public class RadialGeometry implements Geometry {
      * @param radius the radius of the radial geometry
      */
     public RadialGeometry(double radius) {
+        if(Util.alignZero(radius) <= 0)
+            throw new IllegalArgumentException("Radius must be positive");
         this.radius = radius;
     }
-
 
     @Override
     public Vector getNormal(Point point) {
