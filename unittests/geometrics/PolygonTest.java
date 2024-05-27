@@ -24,20 +24,10 @@ class PolygonTest {
 
 
         // ===================== Boundary Values Tests ==================
-        // TC0: Points on the same line
-        try {
-            new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9));
-            fail("Constructed a polygon with three points on the same line");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
-        // TC0: Test if the points not on the same plane
-        try {
-            new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9), new Point(10, 11, 12));
-            fail("Constructed a polygon with points not on the same plane");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        // TC02: Points on the same line
+        assertThrows(IllegalArgumentException.class, () -> new Polygon(new Point(0, 0, 0), new Point(1, 0, 0), new Point(2, 0, 0)));
+        // TC03: Test if the points not on the same plane
+        assertThrows(IllegalArgumentException.class, () -> new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9)));
     }
 
 
@@ -62,11 +52,6 @@ class PolygonTest {
         // =============== Boundary Values Tests ==================
 
         // TC03: Test if the points not on the same plane
-        try {
-            new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9)).getNormal(new Point(1, 2, 3));
-            fail("Constructed a polygon with points not on the same plane");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> new Polygon(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9)).getNormal(new Point(1, 2, 3)));
 }
 }

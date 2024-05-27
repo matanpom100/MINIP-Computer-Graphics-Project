@@ -22,11 +22,7 @@ class SphereTest {
         assertEquals(new Point(1, 0, 0), s.getNormal(new Point(1, 0, 0)), "Bad normal to sphere");
 
         // =============== Boundary Values Tests ==================
-        try {
-            s.getNormal(new Point(0, 2, 0));
-            fail("Point out of sphere should throw exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        // TC02: if the pont is outside the sphere
+        assertThrows(IllegalArgumentException.class, () -> new Sphere(1, new Point(0, 0, 0)).getNormal(new Point(2, 0, 0)), "Failed constructing a sphere with a point outside the sphere");
     }
 }

@@ -30,9 +30,9 @@ public class Tube extends RadialGeometry {
      * @param point
      * @return the normal vector to the tube at the given point
      */
-    public Vector testGetNormal(Point point) {
+    public Vector getNormal(Point point) {
 
-        if (point.equals(axis.getHead())) throw new IllegalArgumentException("Point on the tube's axis");//if the point is on the axis
+
 
         double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));//t is the projection of the point on the axis
         Point o = axis.getHead().add(axis.getDirection().scale(t));//o is the point on the axis that is closest to the point

@@ -51,12 +51,7 @@ class PointTest {
         // =============== Boundary Values Tests ==================
 
         // TC02: test zero vector
-        try {
-            p1.subtract(p1);
-            fail("ERROR: Point subtract 0 does not work correctly");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> p1.subtract(p1), "ERROR: Point subtract 0 does not work correctly");
 
     }
 
@@ -77,13 +72,7 @@ class PointTest {
 
         // =============== Boundary Values Tests ==================
         // TC02: test zero vector
-        try {
-            p.add(new Vector(0, 0, 0));
-            fail("ERROR: Point + Vector 0 does not work correctly");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
-
+       assertThrows(IllegalArgumentException.class, () -> p.add(new Vector(0,0,0)), "ERROR: Point + 0 does not work correctly");
 
 
     }

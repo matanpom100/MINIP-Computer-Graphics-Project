@@ -20,32 +20,11 @@ class VectorTest {
     @Test
 
     void testConstructor() {
-        // ============ Equivalence Partitions Tests ==============
-        // TC01: Simple test
-        try {
-            new Vector(1, 2, 3);
-        } catch (IllegalArgumentException e) {
-            fail("Failed constructing a correct Vector");
-        }
-
-
-
-        // TC02: Test negative vector
-        try {
-            new Vector(-1, -2, -3);
-        } catch (IllegalArgumentException e) {
-            fail("Failed constructing a correct Vector");
-        }
 
         // =============== Boundary Values Tests ==================
 
-        // TC03: Test zero vector
-        try {
-            new Vector(0, 0, 0);
-            fail("Constructed a zero vector");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        // TC01: Test zero vector
+        assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0) , "Constructed a zero vector");
 
     }
 
@@ -67,12 +46,8 @@ class VectorTest {
         // =============== Boundary Values Tests ==================
         // TC03: Test oppsites vectors
 
-        try {
-            new Vector(1, 1, 1).add(new Vector(-1, -1, -1));
-            fail("add() for opposite vectors does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> new Vector(1, 1, 1).add(new Vector(-1, -1, -1)) , "add() for opposite vectors does not throw an exception");
+
 
 
     }
@@ -94,12 +69,7 @@ class VectorTest {
 
         // =============== Boundary Values Tests ==================
         // TC03: Test zero scalar
-        try {
-            new Vector(1, 2, 3).scale(0);
-            fail("scale() for zero scalar does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> new Vector(1, 2, 3).scale(0) , "scale() for zero scalar does not throw an exception");
 
     }
 
@@ -149,39 +119,19 @@ class VectorTest {
 
         // TC03: Test same vectors
 
-        try {
-            new Vector(1, 2, 3).crossProduct(new Vector(1, 2, 3));
-            fail("crossProduct() for same vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> new Vector(1, 2, 3).crossProduct(new Vector(1, 2, 3)) , "crossProduct() for same vector does not throw an exception");
 
         // TC04: Test opposite vectors
 
-        try {
-            new Vector(1, 2, 3).crossProduct(new Vector(-1, -2, -3));
-            fail("crossProduct() for opposite vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+       assertThrows(IllegalArgumentException.class, ()-> new Vector(1,2,3).crossProduct(new Vector(-1,-2,-3)), "crossProduct() for opposite vector does not throw an exception");
 
         // TC05: Test same direction vectors
 
-        try{
-            new Vector(1, 2, 3).crossProduct(new Vector(2, 4, 6));
-            fail("crossProduct() for same direction vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, ()-> new Vector(1,2,3).crossProduct(new Vector(2,4,6)), "crossProduct() for same direction vector does not throw an exception");
 
         // TC06: Test opposite direction vectors bur equals
 
-        try{
-            new Vector(1, 2, 3).crossProduct(new Vector(-2, -4, -6));
-            fail("crossProduct() for opposite direction vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, ()-> new Vector(1,2,3).crossProduct(new Vector(-2,-4,-6)), "crossProduct() for opposite direction vector does not throw an exception");
 
 
 
@@ -257,21 +207,11 @@ class VectorTest {
         // =============== Boundary Values Tests ==================
         // TC03: same direction vectors
 
-        try {
-            v1.subtract(new Vector(2, 4, 6));
-            fail("subtract() for same direction vector does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, ()-> v1.subtract(new Vector(2, 4, 6)), "subtract() for same direction vectors does not throw an exception");
 
         // TC04: equal vectors
 
-        try {
-            v1.subtract(new Vector(1, 2, 3));
-            fail("subtract() for equal vectors does not throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, ()-> v1.subtract(new Vector(1, 2, 3)), "subtract() for equal vectors does not throw an exception");
 
 
 

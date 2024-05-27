@@ -30,12 +30,8 @@ class TriangleTest {
         // =============== Boundary Values Tests ==================
         // TC03: if the three points are on the same line, the normal is the cross product of the two vectors
 
-        try {
-            t = new Triangle(new Point(0, 0, 0), new Point(1, 0, 0), new Point(2, 0, 0));
-            fail("Failed constructing a triangle with three points on the same line");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> new Triangle(new Point(1, 2, 3), new Point(4, 5, 6), new Point(7, 8, 9)),
+                "Constructed a triangle with three points on the same line");
 
     }
 }

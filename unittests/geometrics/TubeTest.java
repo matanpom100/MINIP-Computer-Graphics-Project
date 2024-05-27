@@ -26,13 +26,7 @@ class TubeTest {
 
         // =============== Boundary Values Tests ==================
         // TC02: if the point is on the tube's axis, the normal is the vector from the point to the axis
-        try {
-            tube.getNormal(new Point(1, 1, 1));
-            fail("Point on the tube's axis should throw exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
-
+        assertThrows(IllegalArgumentException.class, () -> tube.getNormal(new Point(1, 1, 1)), "Point on tube's axis should throw exception");
 
     }
 }

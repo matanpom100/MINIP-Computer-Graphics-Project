@@ -26,11 +26,6 @@ class PlaneTest {
         // =============== Boundary Values Tests ==================
         // TC02: if the two vectors are parallel, the normal is the cross product of the two vectors
 
-        try {
-            p = new Plane(new Point(1, 0, 0), new Point(2, 0, 0), new Point(3, 0, 0));
-            fail("Failed constructing a plane with two parallel vectors");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertThrows(IllegalArgumentException.class, () -> new Plane(new Point(1, 0, 0), new Point(2, 0, 0), new Point(3, 0, 0)), "Bad normal to plane");
     }
 }
