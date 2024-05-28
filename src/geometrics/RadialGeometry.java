@@ -11,7 +11,7 @@ import primitives.Vector;
  *
  * @author Me
  */
-public class RadialGeometry implements Geometry {
+public abstract class RadialGeometry implements Geometry {
     /**
      * The radius of the radial geometry
      */
@@ -30,7 +30,5 @@ public class RadialGeometry implements Geometry {
     }
 
     @Override
-    public Vector getNormal(Point point) {
-        return null;
-    }
+    public abstract Vector getNormal(Point point);
 }
