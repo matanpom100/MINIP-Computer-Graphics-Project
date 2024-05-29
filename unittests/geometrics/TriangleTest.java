@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class TriangleTest {
 
+    final Point p100 = new Point(1, 0, 0);
+    final Point p010 = new Point(0, 1, 0);
+    final Point p001 = new Point(0, 0, 1);
     /**
      * Test method for {@link geometrics.Triangle#getNormal(primitives.Point)}   .
      */
@@ -22,10 +25,10 @@ class TriangleTest {
     void getNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Simple test
-        Triangle t = new Triangle(new Point(0, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));
+        Triangle t = new Triangle(new Point(0, 0, 0), p100, p010);
        assertEquals(new Vector(0, 0, 1).normalize(), t.getNormal(new Point(0, 0, 0)), "Bad normal to triangle");
         // TC02: Simple test
-        t = new Triangle(new Point(0, 0, 0), new Point(0, 1, 0), new Point(1, 0, 0));
+        t = new Triangle(new Point(0, 0, 0), p010, p100);
         assertEquals(new Vector(0, 0, -1).normalize(), t.getNormal(new Point(0, 0, 0)), "Bad normal to triangle");
 
         // =============== Boundary Values Tests ==================
@@ -41,39 +44,41 @@ class TriangleTest {
      */
     @Test
     void findIntersections() {
-        Triangle t = new Triangle(new Point(0, 1, 0), new Point(1, 0, 0), new Point(0, 0, 1));
+
+        Triangle t = new Triangle(p100, new Point(0, 0.87, 0), new Point(1, 1, 0));
+
+        Point p11 = new Point(0.5, 0.5, 0);
+
+
+        List<Point> result;
+
         // ============ Equivalence Partitions Tests ==============
 
-        // TC01: Ray intersects the triangle with two intersections points (2 points)
-        List<Point> result = t.findIntersections(new Ray(new Point(0.23523,-0.14861,0), new Vector(0.33, 0.51, 0.07)));
-        assertEquals(2, result.size(), "Wrong number of points");
-
-        // TC02: Ray starts inside the triangle (1 point)
-        result = t.findIntersections(new Ray(new Point(0.25,0.25,0.25), new Vector(0.22, 0.56, -0.99)));
+        // TC01: Ray intersects the triangle (1 point)
+        result = t.findIntersections(new Ray(new Point(0,0,0.5), new Vector(0.5, 0.5, -0.5)));
         assertEquals(1, result.size(), "Wrong number of points");
+        assertEquals(List.of(p11), result, "Wrong intersection point");
 
-        // TC03: Ray does not intersect the triangle (no intersections)
-        result = t.findIntersections(new Ray(new Point(0.25,0.6,0.99), new Vector(0.22, 0.56, -0.99)));
-        assertNull(result, "Wrong number of points");
+        // TC02: Ray does not intersect the triangle in-front of an edge (0 points)
+        result = t.findIntersections(new Ray(new Point(0,0,-0.5), new Vector(0.4, 0.25, 0.5)));
+        assertNull(result, "Ray intersects the triangle");
 
-        // TC04: Ray starts in-front of a vertex of the triangle (2 point)
-        result = t.findIntersections(new Ray(new Point(0,1.2,0), new Vector(0.22, -0.57, 0.29)));
-
+        // TC03: Ray does not intersect the triangle in-front of a vertex (0 points)
+        result = t.findIntersections(new Ray(new Point(0,0,0.5), new Vector(-0.37, 0.87, -0.5)));
+        assertNull(result, "Ray intersects the triangle");
 
         // =============== Boundary Values Tests ==================
-        // TC05: Ray starts on the triangle edge and crosses it (1 point)
-        result = t.findIntersections(new Ray(new Point(0.4,0,0.28), new Vector(-0.29, 0.63, -0.02)));
-        assertEquals(1, result.size(), "Wrong number of points");
 
-        // TC06: Ray starts on the triangle edge and goes to the opposite direction (no intersections)
+        // TC04: Ray intersects the triangle on an edge (0 points)
+        result = t.findIntersections(new Ray(new Point(0,0,0.5), new Vector(0.42, 0.5, -0.5)));
+        assertNull(result, "Ray intersects the triangle");
 
+        // TC05: Ray intersects the triangle on a vertex (0 points)
+        result = t.findIntersections(new Ray(new Point(0,0,0.5), new Vector(1, 0, -0.5)));
+        assertNull(result, "Ray intersects the triangle");
 
-
-
-
-
-
+        // TC06: Ray intersects the triangle on the edge's continuation (0 points)
+        result = t.findIntersections(new Ray(new Point(0,0,-0.2), new Vector(-0.1, 0.87, 0.2)));
+        assertNull(result, "Ray intersects the triangle");
     }
-
-
 }
