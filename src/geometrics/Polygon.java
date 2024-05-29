@@ -1,5 +1,6 @@
 package geometrics;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -85,6 +86,19 @@ public class Polygon implements Geometry {
 
    @Override
    public List<Point> findIntersections(Ray ray) {
-      return List.of();
+      if (plane.findIntersections(ray) == null) return null;
+
+      List<Vector> vectors = new LinkedList<>();
+        for (var vertex : vertices)
+             vectors.add(vertex.subtract(ray.getHead()));
+
+        Vector normal = vectors.get(vectors.size()-1).crossProduct(vectors.get(1));
+        for (var i = 1; i < vectors.size(); ++i) {
+            if (ray.getDirection().dotProduct(normal) > 0 != ray.getDirection().dotProduct(vectors.get(i).crossProduct(vectors.get(i - 1))) > 0)
+                return null;
+
+        }
+        return plane.findIntersections(ray);
+
    }
 }

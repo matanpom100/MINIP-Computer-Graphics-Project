@@ -53,9 +53,6 @@ public class Sphere extends RadialGeometry {
         if (ray.getHead().equals(center)) return List.of(ray.getPoint(radius)); //if the ray starts at the center of the sphere
 
 
-
-
-
         double d = Math.sqrt(u.lengthSquared() - tm * tm);
 
 

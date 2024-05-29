@@ -75,7 +75,7 @@ class PolygonTest {
         // TC01: Ray intersects the polygon (1 point)
         result = p.findIntersections(new Ray(new Point(0,0,1), new Vector(1.1, 1.15, -1)));
         assertEquals(1, result.size(), "Wrong number of points");
-        assertEquals(List.of(new Point(1.11, 1.15,0)), result);
+        assertEquals(List.of(new Point(1.1, 1.15,0)), result);
 
         // TC02: Ray does not intersect the polygon in-front of an edge (0 points)
         result = p.findIntersections(new Ray(new Point(0,0,1), new Vector(2.5, -0.5, -1)));
