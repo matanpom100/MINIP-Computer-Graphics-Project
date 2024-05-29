@@ -38,10 +38,39 @@ public class Sphere extends RadialGeometry {
         return point.subtract(center).normalize();//return the normal vector
     }
 
+    /**
+     * @param ray
+     * @return a list of intersection points between the ray and the sphere
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        Point p0 = ray.getHead();
-        Vector direction = ray.getDirection();
+
+        Vector u = center.subtract(ray.getHead());
+        double tm = ray.getDirection().dotProduct(u);
+
+        if (ray.getHead().equals(center)) return List.of(ray.getPoint(radius)); //if the ray starts at the center of the sphere
+
+
+
+
+
+        double d = Math.sqrt(u.lengthSquared() - tm * tm);
+
+
+
+        if (d >= radius) return null;
+
+        double th = Math.sqrt(radius * radius - d * d);
+        double t1 = tm - th;
+        double t2 = tm + th;
+
+        if (t1 > 0 && t2 > 0) return List.of(ray.getPoint(t1), ray.getPoint(t2));
+        else if (t1 > 0) return List.of(ray.getPoint(t1));
+        else if (t2 >0) return List.of(ray.getPoint(t2));
+        return null;
+
+
+
 
     }
 

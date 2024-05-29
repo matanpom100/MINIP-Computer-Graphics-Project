@@ -34,6 +34,7 @@ public class Vector extends Point {
             //we cannot use the Util.isZero method here because it is not static
             throw new IllegalArgumentException("Vector head cannot be Point(0,0,0)");
         }
+
     }
 
     /**

@@ -15,6 +15,7 @@ public class Ray {
     final Point head;
     final Vector direction;
 
+
     /**
      * Ray constructor receiving a point and a vector
      *
@@ -46,6 +47,10 @@ public class Ray {
 
     public Point getHead() {
         return head;
+    }
+
+    public Point getPoint(double t) {
+        return head.add(direction.scale(t));
     }
 
 }

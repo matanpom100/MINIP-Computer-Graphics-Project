@@ -69,7 +69,7 @@ class SphereTest {
         // The ray tangent the sphere edge
 
         // TC07: Ray tangent the sphere edge (0 point)
-        result = s.findIntersections(new Ray(new Point(1.5,0,0), new Vector(-0.86, -0.76, 0.07)));
+        result = s.findIntersections(new Ray(new Point(1,0,0), new Vector(0, 1, 0)));
         assertNull(result, "Bad intersection to sphere");
 
         // TC08: Ray starts at the sphere edge and won't touch again (0 point)
@@ -83,7 +83,7 @@ class SphereTest {
         // Ray is orthogonal to the sphere center
 
         // TC10: Ray is orthogonal to the sphere center and starts before the sphere (0 points)
-        result = s.findIntersections(new Ray(new Point(-1.5,0,0), new Vector(1, 0, 0)));
+        result  = s.findIntersections (new Ray(new Point(-1,0,0), new Vector(0, 0, 1)));
         assertNull(result, "Bad intersection to sphere");
 
         // TC11: Ray is orthogonal to the sphere center and starts inside the sphere (1 point)
@@ -93,8 +93,10 @@ class SphereTest {
         // The ray starts at the sphere center
 
         // TC12: Ray starts at the sphere center and goes outside the sphere (1 point)
-        result = s.findIntersections(new Ray(new Point(0,0,0), new Vector(1, 0, 0)));
-        assertEquals(1, result.size(), "Bad intersection to sphere");
+        Point p1 = new Point(1, 1, 0);
+        result = s.findIntersections(new Ray(new Point(1, 0, 0), new Vector(0, 1, 0)));
+        assertEquals(1, result.size(), "There should be one intersection");
+        assertEquals(List.of(p1), result, "Incorrect intersection point");
 
         // TC13: Ray starts on the sphere edge in the opposite direction and if it will change direction it will touch the sphere center (0 point)
         result = s.findIntersections(new Ray(new Point(1,0,0), new Vector(1, 0, 0)));
