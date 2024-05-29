@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * Tube class represents a tube in 3D Cartesian coordinate system
  * The tube is represented by a radius and an axis (Ray)
@@ -39,4 +41,8 @@ public class Tube extends RadialGeometry {
         return point.subtract(o).normalize();//the normal vector is the vector from the point to o
     }
 
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return List.of();
+    }
 }

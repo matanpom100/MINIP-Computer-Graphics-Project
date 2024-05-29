@@ -2,7 +2,10 @@ package geometrics;
 
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 /**
  * Sphere class represents a sphere in 3D Cartesian coordinate system
@@ -30,8 +33,16 @@ public class Sphere extends RadialGeometry {
      */
     @Override
     public Vector getNormal(Point point) {
-        if (point.distance(center) != radius)//if the point is not on the sphere
+        if (point.distance(center) != radius) //if the point is not on the sphere
             throw new IllegalArgumentException("The point is not on the sphere");
         return point.subtract(center).normalize();//return the normal vector
     }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        Point p0 = ray.getHead();
+        Vector direction = ray.getDirection();
+
+    }
+
 }
