@@ -24,10 +24,15 @@ public class Triangle extends Polygon {
         super(p1, p2, p3);
     }
 
+    /**
+     * Find intersections of a ray with the triangle
+     * @param ray the ray that intersects the triangle
+     * @return a list of intersection points
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
 
-        if (plane.findIntersections(ray) == null){
+        if (plane.findIntersections(ray) == null){//if the ray does not intersect the plane of the triangle
             return null;
         }
 

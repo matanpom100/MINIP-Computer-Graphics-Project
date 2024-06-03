@@ -41,16 +41,35 @@ public class Ray {
     }
 
 
+    // ***************** Getters/Setters ********************** //
+
+    /**
+     * Getter for the direction of the ray
+     * @return the direction of the ray
+     */
     public Vector getDirection() {
         return direction;
     }
 
+    /**
+     * Getter for the head of the ray
+     * @return the head of the ray
+     */
     public Point getHead() {
         return head;
     }
 
+    /**
+     * Returns a point on the ray at a distance t from the head
+     * @param t the distance from the head
+     * @return the point on the ray at a distance t from the head
+     */
     public Point getPoint(double t) {
-        return head.add(direction.scale(t));
+        if (Util.isZero(t)) {//if t is 0, the point is the head of the ray
+            return head;
+        }
+
+        return head.add(direction.scale(t));//returning the point on the ray at a distance t from the head
     }
 
 }

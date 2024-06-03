@@ -84,21 +84,27 @@ public class Polygon implements Geometry {
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
 
+   /**
+    * Find the intersections of a ray with the polygon
+    * @param ray The ray to find the intersections with
+    * @return A list of points where the ray intersects the polygon
+    */
    @Override
    public List<Point> findIntersections(Ray ray) {
-      if (plane.findIntersections(ray) == null) return null;
 
-      List<Vector> vectors = new LinkedList<>();
-        for (var vertex : vertices)
+      if (plane.findIntersections(ray) == null) return null;//if the ray is parallel to the plane
+
+      List<Vector> vectors = new LinkedList<>();//list of vectors from the head of the ray to the vertices of the polygon
+        for (var vertex : vertices)//calculating the vectors through the vertices
              vectors.add(vertex.subtract(ray.getHead()));
 
-        Vector normal = vectors.get(vectors.size()-1).crossProduct(vectors.get(1));
-        for (var i = 1; i < vectors.size(); ++i) {
+        Vector normal = vectors.get(vectors.size()-1).crossProduct(vectors.get(1));//calculating the normal to the polygon
+        for (var i = 1; i < vectors.size(); ++i) {//checking if the ray intersects the polygon
             if (ray.getDirection().dotProduct(normal) > 0 != ray.getDirection().dotProduct(vectors.get(i).crossProduct(vectors.get(i - 1))) > 0)
                 return null;
 
         }
-        return plane.findIntersections(ray);
+        return plane.findIntersections(ray);//returning the intersection points
 
    }
 }

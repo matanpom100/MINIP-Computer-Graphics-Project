@@ -37,10 +37,16 @@ public class Tube extends RadialGeometry {
 
 
         double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));//t is the projection of the point on the axis
-        Point o = axis.getHead().add(axis.getDirection().scale(t));//o is the point on the axis that is closest to the point
+        Point o = axis.getPoint(t);//o is the point on the axis that is closest to the point
         return point.subtract(o).normalize();//the normal vector is the vector from the point to o
     }
 
+    /**
+     * Find the intersections of a ray with the tube
+     *
+     * @param ray The ray to find the intersections with
+     * @return A list of points where the ray intersects the tube
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         return List.of();

@@ -1,5 +1,6 @@
 package geometrics;
 
+import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -27,7 +28,7 @@ public class GeometriesTests {
     /**
      * Test method for {@link geometrics.Geometries#findIntersections(primitives.Ray)}.
      */
-    // @Test
+    @Test
     void testFindIntersections() {
 
         // ============ Equivalence Partitions Tests ==============
@@ -42,12 +43,15 @@ public class GeometriesTests {
         assertNull(emptyGeometries.findIntersections(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0))), "An empty collection");
         // TC03: None of the geometries have intersections
         result = geometries.findIntersections(new Ray(new Point(-1.43, -3.57, 0), new Vector(-1.06, -0.67, 0)));
-        assertEquals(0, result.size(), "None of the geometries have intersections");
+        assertNull(result, "None of the geometries have intersections");
         // TC04: Only one of the geometries has an intersection
         result = geometries.findIntersections(new Ray(new Point(-1.72, 0.36, 0), new Vector(-1.87, -0.27, 1.12)));
         assertEquals(1, result.size(), "Only one of the geometries has an intersection");
         // TC05: All geometries have intersections
-        result = geometries.findIntersections(new Ray(new Point(2.23, 2.73, 2.28), new Vector(2.66, -4.49, -2.28)));
+
+
+        result = geometries.findIntersections(new Ray(new Point(5,-3,-0.3), new Vector(-4.21, 5.86, 1.19)));
+
         assertEquals(5, result.size(), "All geometries have intersections");
 
 

@@ -29,6 +29,7 @@ public abstract class RadialGeometry implements Geometry {
         this.radius = radius;
     }
 
+
     @Override
     public abstract Vector getNormal(Point point);
 }

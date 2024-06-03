@@ -57,6 +57,11 @@ public class Plane implements Geometry {
         return normal;
     }
 
+    /**
+     * finds the intersections of a ray with the plane.
+     * @param ray The ray to find the intersections with.
+     * @return List of the intersection points.
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
 
@@ -79,7 +84,7 @@ public class Plane implements Geometry {
 
 
 
-        return List.of(head.add(direction.scale(t)));//returning the intersection point
+        return List.of(ray.getPoint(t));//returning the intersection point
 
 
     }
