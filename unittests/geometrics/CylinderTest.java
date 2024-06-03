@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link geometrics.Cylinder}.
+ *
  * @author Matan and Eitan
  */
 class CylinderTest {
@@ -29,7 +30,7 @@ class CylinderTest {
 
         // TC02: In case the point is on the cylinder's top
 
-       assertEquals(new Vector(0, 1, 0), cylinder.getNormal(new Point(1, 2, 1)), "Bad normal to cylinder");
+        assertEquals(new Vector(0, 1, 0), cylinder.getNormal(new Point(1, 2, 1)), "Bad normal to cylinder");
 
         // TC03: In case the point is on the cylinder's bottom
 

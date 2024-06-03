@@ -1,4 +1,5 @@
 package geometrics;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -15,6 +16,7 @@ public class Triangle extends Polygon {
     /**
      * Triangle constructor based on three vertices. The vertices must be in the same plane
      * and the order of them according to the edge path should be counter clockwise
+     *
      * @param p1 first vertex
      * @param p2 second vertex
      * @param p3 third vertex
@@ -26,16 +28,16 @@ public class Triangle extends Polygon {
 
     /**
      * Find intersections of a ray with the triangle
+     *
      * @param ray the ray that intersects the triangle
      * @return a list of intersection points
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
 
-        if (plane.findIntersections(ray) == null){//if the ray does not intersect the plane of the triangle
+        if (plane.findIntersections(ray) == null) {//if the ray does not intersect the plane of the triangle
             return null;
         }
-
 
 
         Vector v1 = vertices.get(0).subtract(ray.getHead());//v1 is the vector from the head of the ray to the first vertex of the triangle
@@ -47,7 +49,7 @@ public class Triangle extends Polygon {
         Vector n3 = v3.crossProduct(v1);//n3 is the normal vector to the triangle created by v3 and v1
 
         if (ray.getDirection().dotProduct(n1) > 0 && ray.getDirection().dotProduct(n2) > 0 && ray.getDirection().dotProduct(n3) > 0 ||
-                ray.getDirection().dotProduct(n1) < 0 && ray.getDirection().dotProduct(n2) < 0 && ray.getDirection().dotProduct(n3) < 0){
+                ray.getDirection().dotProduct(n1) < 0 && ray.getDirection().dotProduct(n2) < 0 && ray.getDirection().dotProduct(n3) < 0) {
             return plane.findIntersections(ray);
         }
         return null;

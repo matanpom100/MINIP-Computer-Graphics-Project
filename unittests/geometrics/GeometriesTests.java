@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class GeometriesTests {
 
-    Triangle triangle = new Triangle(new Point(0, 0, 5.08), new Point(4.36,3.47,0), new Point(1,1,0));
+    Triangle triangle = new Triangle(new Point(0, 0, 5.08), new Point(4.36, 3.47, 0), new Point(1, 1, 0));
     Sphere sphere = new Sphere(1, new Point(3, 0, 0));
-    Polygon polygon = new Polygon(new Point(6.55, -0.69, 0), new Point(6.7, -1.96, 0), new Point(6.32, -3.19, 0), new Point(5, -5, 0), new Point(2.39, -6.27,0), new Point(1.1, -2.4,0), new Point(2.99, -1.47,0));
+    Polygon polygon = new Polygon(new Point(6.55, -0.69, 0), new Point(6.7, -1.96, 0), new Point(6.32, -3.19, 0), new Point(5, -5, 0), new Point(2.39, -6.27, 0), new Point(1.1, -2.4, 0), new Point(2.99, -1.47, 0));
     Plane plane = new Plane(new Point(3.16, 4.49, 0), new Point(-1.62, 1.79, 0), new Point(0, 0, 5));
 
     Geometries emptyGeometries = new Geometries();
@@ -50,10 +50,9 @@ public class GeometriesTests {
         // TC05: All geometries have intersections
 
 
-        result = geometries.findIntersections(new Ray(new Point(5,-3,-0.3), new Vector(-4.21, 5.86, 1.19)));
+        result = geometries.findIntersections(new Ray(new Point(5, -3, -0.3), new Vector(-4.21, 5.86, 1.19)));
 
         assertEquals(5, result.size(), "All geometries have intersections");
-
 
 
     }

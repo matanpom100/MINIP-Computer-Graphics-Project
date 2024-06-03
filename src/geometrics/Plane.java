@@ -59,6 +59,7 @@ public class Plane implements Geometry {
 
     /**
      * finds the intersections of a ray with the plane.
+     *
      * @param ray The ray to find the intersections with.
      * @return List of the intersection points.
      */
@@ -81,7 +82,6 @@ public class Plane implements Geometry {
         if (alignZero(t) <= 0) {//if the intersection point is behind the head of the ray
             return null;
         }
-
 
 
         return List.of(ray.getPoint(t));//returning the intersection point

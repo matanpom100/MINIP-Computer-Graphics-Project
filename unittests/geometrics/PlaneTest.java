@@ -70,16 +70,16 @@ class PlaneTest {
         // Ray is orthogonal to the plane
 
         // TC05: Ray is orthogonal to the plane and before the plane (1 point)
-        result = p2.findIntersections(new Ray(new Point(0, -3, 0), new Vector(3,3,0)));
+        result = p2.findIntersections(new Ray(new Point(0, -3, 0), new Vector(3, 3, 0)));
         assertEquals(1, result.size(), "Bad intersection to plane");
         assertEquals(List.of(new Point(2.5, -0.5, 0)), result, "Bad intersection to plane");
 
         // TC06: Ray is orthogonal to the plane and after the plane (0 points)
-        result = p2.findIntersections(new Ray(new Point(3, 0, 0), new Vector(3,3,0)));
+        result = p2.findIntersections(new Ray(new Point(3, 0, 0), new Vector(3, 3, 0)));
         assertNull(result, "Bad intersection to plane");
 
         // TC07: Ray is orthogonal to the plane and starts on the plane (0 points)
-        result = p2.findIntersections(new Ray(new Point(2.5, -0.5, 0), new Vector(3,3,0)));
+        result = p2.findIntersections(new Ray(new Point(2.5, -0.5, 0), new Vector(3, 3, 0)));
         assertNull(result, "Bad intersection to plane");
 
         // Ray starts on the plane but not orthogonal or parallel to the plane

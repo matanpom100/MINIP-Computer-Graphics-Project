@@ -109,6 +109,10 @@ public class Vector extends Point {
         return scale(1 / length()); // returning the normalized vector by scaling the vector by 1/length
     }
 
+    /**
+     * ToString method for Vector class
+     * @return a string representation of the vector
+     */
     @Override
     public String toString() {
         return super.toString() + "\n Vector:" +
@@ -116,6 +120,11 @@ public class Vector extends Point {
                 '}';
     }
 
+    /**
+     * Equals method for Vector class
+     * @param obj
+     * @return true if the two vectors are equal, false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj) && obj instanceof Vector other;

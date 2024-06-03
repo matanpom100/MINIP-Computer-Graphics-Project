@@ -24,7 +24,7 @@ public abstract class RadialGeometry implements Geometry {
      * @param radius the radius of the radial geometry
      */
     public RadialGeometry(double radius) {
-        if(Util.alignZero(radius) <= 0)//if the radius is negative or zero
+        if (Util.alignZero(radius) <= 0)//if the radius is negative or zero
             throw new IllegalArgumentException("Radius must be positive");
         this.radius = radius;
     }

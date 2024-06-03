@@ -27,6 +27,10 @@ public class Ray {
         this.direction = direction.normalize();
     }
 
+    /**
+     * To string method for the ray
+     * @return a string representation of the ray
+     */
     @Override
     public String toString() {
         return super.toString() + "\n Ray:" +
@@ -34,6 +38,11 @@ public class Ray {
                 ", direction=" + direction;
     }
 
+    /**
+     * Checks if the ray is equal to another ray
+     * @param obj the other ray
+     * @return true if the rays are equal, false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Ray other &&

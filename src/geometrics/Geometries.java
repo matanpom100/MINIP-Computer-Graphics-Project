@@ -10,10 +10,11 @@ import java.util.List;
 /**
  * Geometries class represents a collection of geometries in 3D Cartesian coordinate system
  * The class is a container for geometries that implements the Intersectable interface
- * @see Intersectable
+ *
  * @author Matan and Eitan
+ * @see Intersectable
  */
-public class Geometries implements Intersectable{
+public class Geometries implements Intersectable {
 
     /**
      * List of geometries in the collection
@@ -23,10 +24,12 @@ public class Geometries implements Intersectable{
     /**
      * Default constructor
      */
-    public Geometries() {}
+    public Geometries() {
+    }
 
     /**
      * Constructor based on a list of geometries
+     *
      * @param geometries
      */
     public Geometries(Intersectable... geometries) {
@@ -35,6 +38,7 @@ public class Geometries implements Intersectable{
 
     /**
      * Add geometries to the collection
+     *
      * @param geometries
      */
     public void add(Intersectable... geometries) {
@@ -46,6 +50,7 @@ public class Geometries implements Intersectable{
 
     /**
      * Find intersections of a ray with the geometries in the collection
+     *
      * @param ray
      * @return List of intersection points
      */
