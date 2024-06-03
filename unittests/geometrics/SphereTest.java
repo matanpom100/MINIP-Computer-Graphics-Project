@@ -5,7 +5,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,7 +60,9 @@ class SphereTest {
 
 
         // TC02: Ray starts before and crosses the sphere (2 points)
-        result = sphere.findIntersections(new Ray(p01, v310));
+        result = sphere.findIntersections(new Ray(p01, v310)).stream()
+                .sorted(Comparator.comparingDouble(p -> p.distance(p01))) // Corrected lambda syntax
+                .collect(Collectors.toList());;
         assertEquals(2, result.size(), "Wrong number of points");
         assertEquals(exp, result, "Ray crosses sphere");
 
@@ -134,7 +138,9 @@ class SphereTest {
         assertEquals(List.of(new Point(1, -1, 0)), result, "Ray crosses sphere");
 
         // TC17: Ray starts outside the sphere and crosses it (2 points)
-        result = sphere.findIntersections(new Ray(new Point(1,1.5,0), new Vector(0, -2.5, 0)));
+        result = sphere.findIntersections(new Ray(new Point(1,1.5,0), new Vector(0, -2.5, 0))).stream()
+                .sorted(Comparator.comparingDouble(p -> p.distance(p01))) // Corrected lambda syntax
+                .collect(Collectors.toList());
         assertEquals(2, result.size(), "Ray from outside sphere");
         assertEquals(List.of(new Point(1, 1, 0), new Point(1, -1, 0)), result, "Ray crosses sphere");
 
