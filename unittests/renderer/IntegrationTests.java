@@ -21,11 +21,28 @@ public class IntegrationTests {
             .setViewPlaneDistance(1).setViewPlaneSize(3, 3);
 
 
+    /**
+     * Test the integration of the camera with the triangles
+     */
     @Test
-    void integrationTest() {
+    void testTriangleIntegrations() {
+        /////////////////////////// Triangle Tests ///////////////////////////
 
+        // TC01: Triangle with vertices (0, 1, -2), (-1, -1, -2), (1, -1, -2) - 1 intersection
+        Triangle triangle = new Triangle(new Point(0, 1, -2), new Point(-1, -1, -2), new Point(1, -1, -2));
+        assertEquals(1, getGeoIntersections(triangle).size(), "Triangle test failed");
+
+        // TC02: Triangle with vertices (0, 20, -2), (-1, -1, -2), (1, -1, -2) - 2 intersections
+        triangle = new Triangle(new Point(0, 20, -2), new Point(-1, -1, -2), new Point(1, -1, -2));
+        assertEquals(2, getGeoIntersections(triangle).size(), "Triangle test failed");
+    }
+
+    /**
+     * Test the integration of the camera with the Sphere
+     */
+    @Test
+    void testSphereIntegrations() {
         /////////////////////////// Sphere Tests ///////////////////////////
-
 
         // TC01: Sphere with radius 1 at (0, 0, -3) - 2 intersections
         Sphere sphere = new Sphere(1, new Point(0, 0, -3));
@@ -50,7 +67,13 @@ public class IntegrationTests {
         // TC05: Sphere with radius 0.5 at (0, 0, 1) - 0 intersections
         sphere = new Sphere(0.5, new Point(0, 0, 1));
         assertEquals(0, getGeoIntersections(sphere).size(), "Sphere test failed");
+    }
 
+    /**
+     * Test the integration of the camera with the Plane
+     */
+    @Test
+    void testPlaneIntegrations() {
         /////////////////////////// Plane Tests ///////////////////////////
 
         Plane plane = new Plane(new Point(0, 0, -1), new Vector(0, 0, -1));
@@ -69,24 +92,9 @@ public class IntegrationTests {
         cameraBuilder.build();
         plane = new Plane(new Point(0, 0, 1), new Vector(0, 0, -1));
         assertEquals(0, getGeoIntersections(plane).size(), "Plane test failed");
-
-
-        /////////////////////////// Triangle Tests ///////////////////////////
-
-        // TC01: Triangle with vertices (0, 1, -2), (-1, -1, -2), (1, -1, -2) - 1 intersection
-        Triangle triangle = new Triangle(new Point(0, 1, -2), new Point(-1, -1, -2), new Point(1, -1, -2));
-        assertEquals(1, getGeoIntersections(triangle).size(), "Triangle test failed");
-
-        // TC02: Triangle with vertices (0, 20, -2), (-1, -1, -2), (1, -1, -2) - 2 intersections
-        triangle = new Triangle(new Point(0, 20, -2), new Point(-1, -1, -2), new Point(1, -1, -2));
-        assertEquals(2, getGeoIntersections(triangle).size(), "Triangle test failed");
-
     }
 
-
-
-
-    private List<Point> getGeoIntersections(Geometry geo){
+    private List<Point> getGeoIntersections(Geometry geo){ //get the intersections of the geometry with the camera
 
         ArrayList<Point>  inter = new ArrayList<>();
         for (int i=0; i<3; i++){
