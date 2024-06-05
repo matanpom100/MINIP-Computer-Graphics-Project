@@ -91,8 +91,8 @@ public class Polygon implements Geometry {
     */
    @Override
    public List<Point> findIntersections(Ray ray) {
-
-      if (plane.findIntersections(ray) == null) return null;//if the ray is parallel to the plane
+      List<Point> p = plane.findIntersections(ray);
+      if (p == null) return null;//if the ray is parallel to the plane
 
       List<Vector> vectors = new LinkedList<>();//list of vectors from the head of the ray to the vertices of the polygon
         for (var vertex : vertices)//calculating the vectors through the vertices
@@ -104,7 +104,7 @@ public class Polygon implements Geometry {
                 return null;
 
         }
-        return plane.findIntersections(ray);//returning the intersection points
+        return p;//returning the intersection points
 
    }
 }

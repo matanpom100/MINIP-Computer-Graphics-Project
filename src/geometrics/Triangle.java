@@ -34,8 +34,8 @@ public class Triangle extends Polygon {
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-
-        if (plane.findIntersections(ray) == null) {//if the ray does not intersect the plane of the triangle
+        List<Point> p = plane.findIntersections(ray);
+        if (p == null) {//if the ray does not intersect the plane of the triangle
             return null;
         }
 
@@ -50,7 +50,7 @@ public class Triangle extends Polygon {
 
         if (ray.getDirection().dotProduct(n1) > 0 && ray.getDirection().dotProduct(n2) > 0 && ray.getDirection().dotProduct(n3) > 0 ||
                 ray.getDirection().dotProduct(n1) < 0 && ray.getDirection().dotProduct(n2) < 0 && ray.getDirection().dotProduct(n3) < 0) {
-            return plane.findIntersections(ray);
+            return p;
         }
         return null;
 
