@@ -7,6 +7,8 @@ import primitives.Vector;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
+import static primitives.Util.isZero;
+
 
 public class Camera implements Cloneable{
 
@@ -73,9 +75,7 @@ public class Camera implements Cloneable{
             if (camera.up == null){
                 throw new MissingResourceException("The up vector was not initialized", "Camera", "up");
             }
-            if (camera.right == null){
-                throw new MissingResourceException("The width was not initialized", "Camera", "right");
-            }
+
             if (camera.width == 0){
                 throw new MissingResourceException("The width was not initialized", "Camera", "width");
             }
@@ -132,7 +132,8 @@ public class Camera implements Cloneable{
         return new Builder();
     }
 
-    public Ray constructRay(int nX, int nY, int j, int i) {
+    public Ray constructRay(int nX, int nY, int i, int j) {
+
     }
 
 

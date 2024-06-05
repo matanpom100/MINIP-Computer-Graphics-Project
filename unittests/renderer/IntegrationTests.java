@@ -2,56 +2,105 @@ package renderer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import geometrics.Geometry;
+import geometrics.Intersectable;
 import org.junit.jupiter.api.Test;
 
 import primitives.*;
+import geometrics.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntegrationTests {
 
     private static final Camera.Builder cameraBuilder = new Camera.Builder()
             .setLoaction(Point.ZERO)
-            .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
-            .setViewPlaneDistance(10);
+            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
+            .setViewPlaneDistance(1).setViewPlaneSize(3, 3);
 
 
     @Test
-    void testConstructRay() {
-        final String badRay  = "Bad ray";
+    void integrationTest() {
 
-        // ============ Equivalence Partitions Tests ==============
-        // EP01: 4X4 Inside (1,1)
-        Camera camera1 = cameraBuilder.setViewPlaneSize(8, 8).build();
-        assertEquals(new Ray(Point.ZERO, new Vector(1, -1, -10)),
-                camera1.constructRay(4, 4, 1, 1), badRay);
+        /////////////////////////// Sphere Tests ///////////////////////////
 
-        // =============== Boundary Values Tests ==================
-        // BV01: 4X4 Corner (0,0)
-        assertEquals(new Ray(Point.ZERO, new Vector(3, -3, -10)),
-                camera1.constructRay(4, 4, 0, 0), badRay);
 
-        // BV02: 4X4 Side (0,1)
-        assertEquals(new Ray(Point.ZERO, new Vector(1, -3, -10)),
-                camera1.constructRay(4, 4, 1, 0), badRay);
+        // TC01: Sphere with radius 1 at (0, 0, -3) - 2 intersections
+        Sphere sphere = new Sphere(1, new Point(0, 0, -3));
 
-        // BV03: 3X3 Center (1,1)
-        Camera camera2 = cameraBuilder.setViewPlaneSize(6, 6).build();
-        assertEquals(new Ray(Point.ZERO, new Vector(0, 0, -10)),
-                camera2.constructRay(3, 3, 1, 1), badRay);
+        cameraBuilder.build();
+        assertEquals(2, getGeoIntersections(sphere).size(), "Sphere test failed");
 
-        // BV04: 3X3 Center of Upper Side (0,1)
-        assertEquals(new Ray(Point.ZERO, new Vector(0, -2, -10)),
-                camera2.constructRay(3, 3, 1, 0), badRay);
+        // TC02: Sphere with radius 2.5 at (0, 0, -2.5) - 18 intersections
+        cameraBuilder.setLoaction(new Point(0,0,0.5));
+        cameraBuilder.build();
+        sphere = new Sphere(2.5, new Point(0, 0, -2.5));
+        assertEquals(18, getGeoIntersections(sphere).size(), "Sphere test failed");
 
-        // BV05: 3X3 Center of Left Side (1,0)
-        assertEquals(new Ray(Point.ZERO, new Vector(2, 0, -10)),
-                camera2.constructRay(3, 3, 0, 1), badRay);
+        // TC03: Sphere with radius 2 at (0, 0, -2) - 10 intersections
+        sphere = new Sphere(2, new Point(0, 0, -2));
+        assertEquals(10, getGeoIntersections(sphere).size(), "Sphere test failed");
 
-        // BV06: 3X3 Corner (0,0)
-        assertEquals(new Ray(Point.ZERO, new Vector(2, -2, -10)),
-                camera2.constructRay(3, 3, 0, 0), badRay);
+        // TC04: Sphere with radius 4 at (0, 0, 0) - 9 intersections
+        sphere = new Sphere(4, new Point(0, 0, 0));
+        assertEquals(9, getGeoIntersections(sphere).size(), "Sphere test failed");
+
+        // TC05: Sphere with radius 0.5 at (0, 0, 1) - 0 intersections
+        sphere = new Sphere(0.5, new Point(0, 0, 1));
+        assertEquals(0, getGeoIntersections(sphere).size(), "Sphere test failed");
+
+        /////////////////////////// Plane Tests ///////////////////////////
+
+        Plane plane = new Plane(new Point(0, 0, -1), new Vector(0, 0, -1));
+
+        // TC01: Plane with normal (0, 0, -1) and point (0, 0, -1) - 9 intersections
+        assertEquals(9, getGeoIntersections(plane).size(), "Plane test failed");
+
+        // TC02: Plane with normal (0, 0, -1) and point (0, 0, -2) - 9 intersections
+
+        plane = new Plane(new Point(0, 0, -2), new Vector(0, 0, -1));
+        assertEquals(9, getGeoIntersections(plane).size(), "Plane test failed");
+
+        // TC03: Plane with normal (0, 0, -1) and point (0, 0, 1) - 0 intersections
+
+        cameraBuilder.setLoaction(new Point(0,0,0));
+        cameraBuilder.build();
+        plane = new Plane(new Point(0, 0, 1), new Vector(0, 0, -1));
+        assertEquals(0, getGeoIntersections(plane).size(), "Plane test failed");
+
+
+        /////////////////////////// Triangle Tests ///////////////////////////
+
+        // TC01: Triangle with vertices (0, 1, -2), (-1, -1, -2), (1, -1, -2) - 1 intersection
+        Triangle triangle = new Triangle(new Point(0, 1, -2), new Point(-1, -1, -2), new Point(1, -1, -2));
+        assertEquals(1, getGeoIntersections(triangle).size(), "Triangle test failed");
+
+        // TC02: Triangle with vertices (0, 20, -2), (-1, -1, -2), (1, -1, -2) - 2 intersections
+        triangle = new Triangle(new Point(0, 20, -2), new Point(-1, -1, -2), new Point(1, -1, -2));
+        assertEquals(2, getGeoIntersections(triangle).size(), "Triangle test failed");
+
     }
 
 
+
+
+    private List<Point> getGeoIntersections(Geometry geo){
+
+        ArrayList<Point>  inter = new ArrayList<>();
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                Ray ray = cameraBuilder.build().constructRay(3, 3, i, j);
+                List<Point> intersections = geo.findIntersections(ray);
+                if (intersections != null){
+                    inter.addAll(intersections);
+                }
+            }
+        }
+        return inter;
+
+    }
 
 
 }
