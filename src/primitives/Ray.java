@@ -3,6 +3,8 @@ package primitives;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.List;
+
 
 /**
  * Ray class represents a ray in 3D Cartesian coordinate system
@@ -79,6 +81,30 @@ public class Ray {
         }
 
         return head.add(direction.scale(t));//returning the point on the ray at a distance t from the head
+    }
+
+    /**
+     * Finds the closest point to the head of the ray from a list of points
+     * @param points the list of points
+     * @return the closest point to the head of the ray
+     */
+    public Point findClosestPoint(List<Point> points) {
+        if (points == null) {//if the list is null, there is no closest point to return
+            return null;
+        }
+
+
+        Point closest = null;
+        double minDistance = Double.POSITIVE_INFINITY;
+
+        for (Point p : points) {//iterating over the list of points
+            double distance = head.distance(p);
+            if (distance < minDistance) {//finding the closest point using minimum distance
+                minDistance = distance;
+                closest = p;
+            }
+        }
+        return closest;//returning the closest point
     }
 
 }
