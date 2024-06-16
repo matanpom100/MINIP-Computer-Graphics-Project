@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import primitives.*;
 import geometrics.*;
+import scene.Scene;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class IntegrationTests {
 
     private static final Camera.Builder cameraBuilder = new Camera.Builder()
             .setLoaction(Point.ZERO)
+            .setImageWriter(new ImageWriter("Test", 1, 1))
+            .setRayTracer(new SimpleRayTracer(new Scene("Test")))
             .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setViewPlaneDistance(1).setViewPlaneSize(3, 3);
 

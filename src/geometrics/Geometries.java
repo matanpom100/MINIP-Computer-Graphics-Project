@@ -50,7 +50,6 @@ public class Geometries implements Intersectable {
 
     /**
      * Find intersections of a ray with the geometries in the collection
-     *
      * @param ray
      * @return List of intersection points
      */

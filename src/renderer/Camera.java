@@ -4,6 +4,7 @@ import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import primitives.Color;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -13,12 +14,24 @@ import static primitives.Util.isZero;
 
 public class Camera implements Cloneable {
 
+    ImageWriter imageWriter;
+    RayTracerBase rayTracer;
+
     /**
      * Builder for the camera
      */
     public static class Builder {
         private final Camera camera;
 
+        public Builder setRayTracer(RayTracerBase rayTracer) {
+            camera.rayTracer = rayTracer;
+            return this;
+        }
+
+        public Builder setImageWriter(ImageWriter imageWriter) {
+            camera.imageWriter = imageWriter;
+            return this;
+        }
 
         /**
          * Constructor for the builder
@@ -103,6 +116,8 @@ public class Camera implements Cloneable {
             return this;
         }
 
+
+
         /**
          * Build the camera
          *
@@ -126,6 +141,12 @@ public class Camera implements Cloneable {
             }
             if (camera.distance == 0.0) {
                 throw new MissingResourceException("The distance was not initialized", "Camera", "distance");
+            }
+            if (camera.rayTracer == null) {
+                throw new MissingResourceException("The ray tracer was not initialized", "Camera", "rayTracer");
+            }
+            if (camera.imageWriter == null) {
+                throw new MissingResourceException("The image writer was not initialized", "Camera", "imageWriter");
             }
 
             camera.right = camera.to.crossProduct(camera.up).normalize();
@@ -233,6 +254,41 @@ public class Camera implements Cloneable {
         }
 
         return new Ray(position, Pij.subtract(position)); //return the ray
+    }
+
+    public Camera printGrid(int interval, Color Color){
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                if (i % interval == 0 || j % interval == 0) {
+                    imageWriter.writePixel(j, i, Color);
+                }
+            }
+        }
+        return this;
+    }
+
+    public Camera renderImage() {
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                castRay(nX, nY, j, i);
+            }
+        }
+        return this;
+    }
+
+    public void writeToImage() {
+        imageWriter.writeToImage();
+    }
+
+    private void castRay(int nX, int nY, int j, int i) {
+        Ray ray = constructRay(nX, nY, j, i);
+        Color color = rayTracer.traceRay(ray);
+        imageWriter.writePixel(j, i, color);
     }
 
 
