@@ -13,6 +13,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Integration tests of the camera with the geometries
+ * The tests are based on the integration of the camera with the geometries
+ * and the number of intersections that are found
+ * @author Matan and Eitan
+ */
 public class IntegrationTests {
 
     private static final Camera.Builder cameraBuilder = new Camera.Builder()
