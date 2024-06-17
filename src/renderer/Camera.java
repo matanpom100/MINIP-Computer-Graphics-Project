@@ -14,7 +14,14 @@ import static primitives.Util.isZero;
 
 public class Camera implements Cloneable {
 
+
+    /**
+     * The image writer
+     */
     ImageWriter imageWriter;
+    /**
+     * The ray tracer
+     */
     RayTracerBase rayTracer;
 
     /**
@@ -23,11 +30,21 @@ public class Camera implements Cloneable {
     public static class Builder {
         private final Camera camera;
 
+        /**
+         * Set the ray tracer
+         * @param rayTracer
+         * @return The builder
+         */
         public Builder setRayTracer(RayTracerBase rayTracer) {
             camera.rayTracer = rayTracer;
             return this;
         }
 
+        /**
+         * Set the image writer
+         * @param imageWriter
+         * @return The builder
+         */
         public Builder setImageWriter(ImageWriter imageWriter) {
             camera.imageWriter = imageWriter;
             return this;
@@ -51,7 +68,6 @@ public class Camera implements Cloneable {
 
         /**
          * Set the camera position
-         *
          * @param position
          * @return The builder
          */
@@ -65,36 +81,30 @@ public class Camera implements Cloneable {
 
         /**
          * Set the direction of the camera
-         *
          * @param to
          * @param up
          * @return The builder
          */
         public Builder setDirection(Vector to, Vector up) {
-
-            if (to == null || up == null) {
+            if (to == null || up == null) { //if the vectors are null, throw an exception
                 throw new IllegalArgumentException("The vectors cannot be null");
             }
-            if (to.dotProduct(up) != 0) {
+            if (to.dotProduct(up) != 0) { //if the vectors are not orthogonal, throw an exception
                 throw new IllegalArgumentException("The vectors are not orthogonal");
             }
-            camera.to = to.normalize();
-            camera.up = up.normalize();
-
+            camera.to = to.normalize(); //normalize the to vector
+            camera.up = up.normalize(); //normalize the up vector
             return this;
-
-
         }
 
         /**
          * Set the view plane size
-         *
          * @param width
          * @param height
          * @return The builder
          */
         public Builder setViewPlaneSize(double width, double height) {
-            if (width <= 0 || height <= 0) {
+            if (width <= 0 || height <= 0) { //if the width or height are not positive, throw an exception
                 throw new IllegalArgumentException("The width and height must be positive");
             }
             camera.width = width;
@@ -104,23 +114,19 @@ public class Camera implements Cloneable {
 
         /**
          * Set the view plane distance
-         *
          * @param distance
          * @return The builder
          */
         public Builder setViewPlaneDistance(double distance) {
-            if (distance <= 0) {
+            if (distance <= 0) { //if the distance is not positive, throw an exception
                 throw new IllegalArgumentException("The distance must be positive");
             }
             camera.distance = distance;
             return this;
         }
 
-
-
         /**
-         * Build the camera
-         *
+         * Build the camera and throw an exception if a required field is missing
          * @return the camera
          */
         public Camera build() {
@@ -149,17 +155,16 @@ public class Camera implements Cloneable {
                 throw new MissingResourceException("The image writer was not initialized", "Camera", "imageWriter");
             }
 
-            camera.right = camera.to.crossProduct(camera.up).normalize();
+            camera.right = camera.to.crossProduct(camera.up).normalize(); //calculate the right vector
             try {
-                return (Camera) camera.clone();
-            } catch (CloneNotSupportedException e) {
+                return (Camera) camera.clone(); //return a clone of the camera
+            } catch (CloneNotSupportedException e) { //if the clone is not supported, throw an exception
                 throw new RuntimeException(e);
             }
 
         }
 
     }
-
 
     /**
      * The camera position
@@ -256,39 +261,59 @@ public class Camera implements Cloneable {
         return new Ray(position, Pij.subtract(position)); //return the ray
     }
 
+    /**
+     * Print a grid on the view plane
+     * @param interval
+     * @param Color
+     * @return the camera
+     */
     public Camera printGrid(int interval, Color Color){
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
 
-        for (int i = 0; i < nY; i++) {
+        for (int i = 0; i < nY; i++) { //for each pixel
             for (int j = 0; j < nX; j++) {
-                if (i % interval == 0 || j % interval == 0) {
-                    imageWriter.writePixel(j, i, Color);
+                if (i % interval == 0 || j % interval == 0) { //if the pixel the line should be drawn on
+                    imageWriter.writePixel(j, i, Color); //write the color
                 }
             }
         }
         return this;
     }
 
+    /**
+     * Render the image
+     * @return the camera
+     */
     public Camera renderImage() {
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
-        for (int i = 0; i < nY; i++) {
+        for (int i = 0; i < nY; i++) { //for each pixel
             for (int j = 0; j < nX; j++) {
-                castRay(nX, nY, j, i);
+                castRay(nX, nY, j, i); //cast a ray through the pixel
             }
         }
         return this;
     }
 
+    /**
+     * Write the image to a file
+     */
     public void writeToImage() {
         imageWriter.writeToImage();
     }
 
+    /**
+     * Cast a ray through a pixel
+     * @param nX number of pixels in the x direction
+     * @param nY number of pixels in the y direction
+     * @param j  the x index of the pixel
+     * @param i  the y index of the pixel
+     */
     private void castRay(int nX, int nY, int j, int i) {
-        Ray ray = constructRay(nX, nY, j, i);
-        Color color = rayTracer.traceRay(ray);
-        imageWriter.writePixel(j, i, color);
+        Ray ray = constructRay(nX, nY, j, i); //construct the ray
+        Color color = rayTracer.traceRay(ray); //trace the ray
+        imageWriter.writePixel(j, i, color); //write the color to the pixel
     }
 
 

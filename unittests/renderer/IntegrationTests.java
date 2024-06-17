@@ -22,12 +22,13 @@ import java.util.List;
  */
 public class IntegrationTests {
 
+    // Camera builder for the tests
     private static final Camera.Builder cameraBuilder = new Camera.Builder()
-            .setLoaction(Point.ZERO)
-            .setImageWriter(new ImageWriter("Test", 1, 1))
-            .setRayTracer(new SimpleRayTracer(new Scene("Test")))
-            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
-            .setViewPlaneDistance(1).setViewPlaneSize(3, 3);
+            .setLoaction(Point.ZERO) // Set the camera location
+            .setImageWriter(new ImageWriter("Test", 1, 1)) // Set the image writer
+            .setRayTracer(new SimpleRayTracer(new Scene("Test"))) // Set the ray tracer
+            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0)) // Set the camera direction
+            .setViewPlaneDistance(1).setViewPlaneSize(3, 3); // Set the view plane distance and size
 
 
     /**
@@ -103,15 +104,19 @@ public class IntegrationTests {
         assertEquals(0, getGeoIntersections(plane).size(), "Plane test failed");
     }
 
+    /**
+     * Test the integration of the camera with the Cylinder
+     * @param geo
+     * @return
+     */
     private List<Point> getGeoIntersections(Geometry geo){ //get the intersections of the geometry with the camera
-
         ArrayList<Point>  inter = new ArrayList<>();
-        for (int i=0; i<3; i++){
+        for (int i=0; i<3; i++){ //for each pixel in the view plane
             for (int j=0; j<3; j++){
-                Ray ray = cameraBuilder.build().constructRay(3, 3, i, j);
-                List<Point> intersections = geo.findIntersections(ray);
-                if (intersections != null){
-                    inter.addAll(intersections);
+                Ray ray = cameraBuilder.build().constructRay(3, 3, i, j); // Construct the ray through the pixel
+                List<Point> intersections = geo.findIntersections(ray); // Find the intersections of the ray with the geometry
+                if (intersections != null){ // If there are intersections, add them to the list
+                    inter.addAll(intersections); // Add the intersections to the list
                 }
             }
         }
