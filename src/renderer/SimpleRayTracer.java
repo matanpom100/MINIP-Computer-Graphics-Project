@@ -7,6 +7,9 @@ import scene.Scene;
 
 import java.util.List;
 
+/**
+ * SimpleRayTracer class is a class that represents a simple ray tracer
+ */
 public class SimpleRayTracer extends RayTracerBase {
 
 

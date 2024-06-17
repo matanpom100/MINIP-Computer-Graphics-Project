@@ -4,6 +4,9 @@ import primitives.Color;
 import primitives.Ray;
 import scene.Scene;
 
+/**
+ * RayTracerBase class is an abstract class that represents a ray tracer
+ */
 public abstract class RayTracerBase {
     protected Scene scene;
 

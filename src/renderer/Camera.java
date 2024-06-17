@@ -11,7 +11,9 @@ import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
 
-
+/**
+ * The camera class
+ */
 public class Camera implements Cloneable {
 
 
@@ -290,7 +292,7 @@ public class Camera implements Cloneable {
         int nY = imageWriter.getNy();
         for (int i = 0; i < nY; i++) { //for each pixel
             for (int j = 0; j < nX; j++) {
-                castRay(nX, nY, j, i); //cast a ray through the pixel
+                castRay(nX, nY, j, i); // cast a ray through the pixel
             }
         }
         return this;
