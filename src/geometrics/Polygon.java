@@ -14,7 +14,7 @@ import primitives.Vector;
  * system
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
@@ -90,8 +90,8 @@ public class Polygon implements Geometry {
     * @return A list of points where the ray intersects the polygon
     */
    @Override
-   public List<Point> findIntersections(Ray ray) {
-      List<Point> p = plane.findIntersections(ray);
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+      var p = plane.findGeoIntersections(ray);
       if (p == null) return null;//if the ray is parallel to the plane
 
       List<Vector> vectors = new LinkedList<>();//list of vectors from the head of the ray to the vertices of the polygon

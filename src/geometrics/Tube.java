@@ -47,7 +47,7 @@ public class Tube extends RadialGeometry {
      * @return A list of points where the ray intersects the tube
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return List.of();
     }
 }

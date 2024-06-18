@@ -11,7 +11,7 @@ import primitives.Vector;
  *
  * @author Me
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     /**
      * The radius of the radial geometry
      */

@@ -2,6 +2,8 @@ package primitives;
 
 import primitives.Point;
 import primitives.Vector;
+import geometrics.Intersectable.GeoPoint;
+
 
 import java.util.List;
 
@@ -106,5 +108,24 @@ public class Ray {
         }
         return closest;//returning the closest point
     }
+
+
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
+
+        GeoPoint close = null;
+
+        double minDistance = Double.POSITIVE_INFINITY;
+
+        for (GeoPoint p : points) {
+            double distance = head.distance(p.point);
+            if (distance < minDistance) {
+                minDistance = distance;
+                close = p;
+            }
+        }
+        return close;
+
+    }
+
 
 }

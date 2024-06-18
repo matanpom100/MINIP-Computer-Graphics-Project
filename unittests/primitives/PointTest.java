@@ -20,9 +20,8 @@ class PointTest {
         Point p1 = new Point(1, 2, 3);
         Point p2 = new Point(4, 5, 6);
 
+
         // TC01: simple test
-
-
         assertEquals(27, p1.distanceSquared(p2), "ERROR: Point distanceSquared does not work correctly");
 
         // =============== Boundary Values Tests ==================
