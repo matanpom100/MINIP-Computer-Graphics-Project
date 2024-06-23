@@ -4,6 +4,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class Triangle extends Polygon {
      */
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<GeoPoint> p = plane.findGeoIntersections(ray);
+        List<Point> p = plane.findIntersections(ray);
         if (p == null) {//if the ray does not intersect the plane of the triangle
             return null;
         }
@@ -50,7 +51,11 @@ public class Triangle extends Polygon {
 
         if (ray.getDirection().dotProduct(n1) > 0 && ray.getDirection().dotProduct(n2) > 0 && ray.getDirection().dotProduct(n3) > 0 ||
                 ray.getDirection().dotProduct(n1) < 0 && ray.getDirection().dotProduct(n2) < 0 && ray.getDirection().dotProduct(n3) < 0) {
-            return p;
+            List<GeoPoint> result = new LinkedList<GeoPoint>();
+            for (Point point : p) {
+                result.add(new GeoPoint(this, point));
+            }
+            return result;
         }
         return null;
 

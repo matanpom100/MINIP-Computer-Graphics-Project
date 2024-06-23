@@ -2,7 +2,11 @@ package scene;
 
 import geometrics.Geometries;
 import lighting.AmbientLight;
+import lighting.LightSource;
 import primitives.Color;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Scene class represents a scene in 3D Cartesian coordinate system
@@ -17,6 +21,8 @@ public class Scene {
      * The scene's name
      */
     public String name;
+
+    public List<LightSource> lights = new LinkedList<>();
 
     /**
      * The scene's background color
@@ -66,6 +72,16 @@ public class Scene {
      */
     public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
+        return this;
+    }
+
+    /**
+     * Scene setter - sets the lights of the scene
+     * @param lights the lights of the scene
+     * @return the scene
+     */
+    public Scene setLights(List<LightSource> lights) {
+        this.lights = lights;
         return this;
     }
 

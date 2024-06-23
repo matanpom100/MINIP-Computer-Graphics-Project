@@ -91,7 +91,7 @@ public class Polygon extends Geometry {
     */
    @Override
    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-      var p = plane.findGeoIntersections(ray);
+      var p = plane.findIntersections(ray);
       if (p == null) return null;//if the ray is parallel to the plane
 
       List<Vector> vectors = new LinkedList<>();//list of vectors from the head of the ray to the vertices of the polygon
@@ -104,7 +104,10 @@ public class Polygon extends Geometry {
                 return null;
 
         }
-        return p;//returning the intersection points
+        List<GeoPoint> result = new LinkedList<>();
+        for (var point : p)//adding the intersection points to the result list
+            result.add(new GeoPoint(this, point));
+        return result;
 
    }
 }

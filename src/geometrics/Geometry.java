@@ -1,6 +1,7 @@
 package geometrics;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point;
 import primitives.Vector;
 
@@ -8,6 +9,27 @@ import primitives.Vector;
  * Geometry interface is the basic interface for all geometric shapes
  */
 public abstract class Geometry extends Intersectable {
+
+
+    Material material = new Material();
+
+    /**
+     * Getter for the material
+     * @return the material
+     */
+    public Material getMaterial() {
+        return material;
+    }
+
+    /**
+     * Setter for the material
+     * @param material
+     * @return this
+     */
+    public Geometry setMaterial(Material material) {
+        this.material = material;
+        return this;
+    }
 
     /**
      * @param point

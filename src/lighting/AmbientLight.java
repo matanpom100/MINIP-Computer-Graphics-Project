@@ -8,12 +8,7 @@ import primitives.Double3;
  * The ambient light is the light that is scattered in the scene
  * @Author Matan and Eitan
  */
-public class AmbientLight {
-
-    /**
-     * The intensity of the ambient light
-     */
-    final private Color intensity;
+public class AmbientLight extends Light {
 
     /**
      * The default ambient light - set to black with intensity 0
@@ -26,7 +21,7 @@ public class AmbientLight {
      * @param Ka the attenuation factor of the ambient light
      */
     public AmbientLight(Color Ia, Double3 Ka) {
-        intensity = Ia.scale(Ka);
+        super(Ia.scale(Ka));
     }
 
     /**
@@ -35,16 +30,9 @@ public class AmbientLight {
      * @param Ka the attenuation factor of the ambient light
      */
     public AmbientLight(Color Ia, double Ka) {
-        intensity = Ia.scale(Ka);
+        super(Ia.scale(Ka));
     }
 
-    /**
-     * AmbientLight getter - returns the intensity of the ambient light
-     * @return the intensity of the ambient light
-     */
-    public Color getIntensity() {
-        return intensity;
-    }
 
 
 

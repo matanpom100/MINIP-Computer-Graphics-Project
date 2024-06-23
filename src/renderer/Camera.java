@@ -245,11 +245,8 @@ public class Camera implements Cloneable {
 
         Point Pc = position.add(to.scale(distance)); //center of the view plane
 
-        double Ry = height / (double) nY; // height of a pixel
-        double Rx = width / (double) nX; // width of a pixel
-
-        double Yi = -(i - (nY - 1) / 2.0) * Ry; // y coordinate of the pixel
-        double Xj = (j - (nX - 1) / 2.0) * Rx; // x coordinate of the pixel
+        double Yi = -(i - (nY - 1) / 2.0) *  height / (double) nY;; // y coordinate of the pixel
+        double Xj = (j - (nX - 1) / 2.0) * width / (double) nX; // x coordinate of the pixel
 
         Point Pij = Pc;
 
