@@ -2,6 +2,7 @@ package  lighting;
 
 import static java.awt.Color.*;
 
+import geometrics.Cylinder;
 import geometrics.Geometry;
 import geometrics.Sphere;
 import geometrics.Triangle;
@@ -191,6 +192,41 @@ public class LightsTests {
               .setkL(0.001).setkQ(0.00004));//.setNarrowBeam(10));
 
       camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500, 500))
+              .build()
+              .renderImage()
+              .writeToImage();
+   }
+
+   /** Produce a picture of a sphere lighted by multiple lights */
+   @Test
+   public void sphereMultipleLights() {
+      scene1.geometries.add(sphere);
+      scene1.lights.add(new DirectionalLight(new Color(300, 500, 0), new Vector(1, -1, -1)));
+      scene1.lights.add(new PointLight(new Color(500, 300, 0), new Point(-50, -50, 50))
+              .setkL(0.001).setkQ(0.0002));
+      scene1.lights.add(new SpotLight(new Color(500, 300, 500), new Point(-50, -50, 50), new Vector(1, 1, -1))
+              .setkL(0.001).setkQ(0.0001));
+
+      camera1.setImageWriter(new ImageWriter("lightSphereMultiple", 500, 500))
+              .build()
+              .renderImage()
+              .writeToImage();
+   }
+
+    /** Produce a picture of two triangles lighted by multiple lights */
+   @Test
+   public void trianglesMultipleLights() {
+      scene2.geometries.add(triangle1, triangle2);
+      // Change the color and direction of the DirectionalLight
+      scene2.lights.add(new DirectionalLight(new Color(500, 0, 0), new Vector(1, 1, -1)));
+      // Change the color, position, and attenuation factors of the SpotLight
+      scene2.lights.add(new SpotLight(new Color(0, 0, 500), new Point(60, 20, -100), new Vector(2, 2, -1))
+              .setkL(0.002).setkQ(0.0001));
+      // Add a PointLight with a unique color, position, and attenuation factors
+      scene2.lights.add(new PointLight(new Color(0, 500, 0), new Point(30, 10, -50))
+              .setkL(0.002).setkQ(0.0002));
+
+      camera2.setImageWriter(new ImageWriter("lightTrianglesMultiple", 500, 500))
               .build()
               .renderImage()
               .writeToImage();
