@@ -4,7 +4,7 @@ import primitives.Color;
 
 /**
     * Light class represents a light in the scene.
-    * @Author Matan and Eitan
+    * @Author Eitan and Matan
  */
 abstract class Light {
 

@@ -29,7 +29,7 @@ public class Material {
      * @return this
      */
     public Material setkD(double kD) {
-        this.kS = new Double3(kD);
+        this.kD = new Double3(kD);
         return this;
     }
 

@@ -74,7 +74,6 @@ public class SpotLight extends PointLight {
 
     /**
      * Get the direction of the light.
-     *
      * @param p The point to get the direction at.
      * @return The direction of the light.
      */
