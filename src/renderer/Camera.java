@@ -73,7 +73,7 @@ public class Camera implements Cloneable {
          * @param position
          * @return The builder
          */
-        public Builder setLoaction(Point position) {
+        public Builder setLocation(Point position) {
             if (position == null) {
                 throw new IllegalArgumentException("The position cannot be null");
             }

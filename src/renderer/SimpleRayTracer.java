@@ -48,6 +48,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return
      */
     private Color calcColor(Intersectable.GeoPoint point, Ray ray) { // Calculate the color of the point
+
+
         return scene.ambientLight.getIntensity().add(calcLocalEffects(point, ray)); // Return the color of the point
     }
 
@@ -68,7 +70,7 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(point.point);
             double nl = alignZero(n.dotProduct(l));
-            if (nl * nv > 0) { // sign(nl) == sign(nv)
+            if (nl * nv > 0 && unshaded(point,l,n,nl,lightSource)) { // sign(nl) == sign(nv)
                 Color iL = lightSource.getIntensity(point.point);
                 color = color.add(iL.scale(calcDiffusive(material, nl)),
                         iL.scale(calcSpecular(material, n, l, nl, v)));
@@ -105,4 +107,17 @@ public class SimpleRayTracer extends RayTracerBase {
             return material.kD.scale(Math.abs(nl));
     }
 
+
+
+    private static final double DELTA = 0.1;
+
+    private boolean unshaded(Intersectable.GeoPoint gp, Vector l, Vector n, double n1, LightSource lightSource) {
+        Vector lightD = l.scale(-1); // from point to light source
+        Ray lightR = new Ray(gp.point.add(n.scale(alignZero(n.dotProduct(lightD) > 0 ? DELTA : -DELTA))), lightD);//ray from geometry point to light source
+
+
+
+        return scene.geometries.findGeoIntersections(lightR) == null;
+
+    }
 }

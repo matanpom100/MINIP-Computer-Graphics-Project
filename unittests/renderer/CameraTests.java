@@ -17,7 +17,7 @@ class CameraTests {
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(new Scene("Test")))
             .setImageWriter(new ImageWriter("Test", 1, 1))
-            .setLoaction(Point.ZERO)
+            .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
             .setViewPlaneDistance(10);
 

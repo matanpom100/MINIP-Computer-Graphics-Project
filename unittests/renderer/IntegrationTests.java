@@ -24,7 +24,7 @@ public class IntegrationTests {
 
     // Camera builder for the tests
     private static final Camera.Builder cameraBuilder = new Camera.Builder()
-            .setLoaction(Point.ZERO) // Set the camera location
+            .setLocation(Point.ZERO) // Set the camera location
             .setImageWriter(new ImageWriter("Test", 1, 1)) // Set the image writer
             .setRayTracer(new SimpleRayTracer(new Scene("Test"))) // Set the ray tracer
             .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0)) // Set the camera direction
@@ -61,7 +61,7 @@ public class IntegrationTests {
         assertEquals(2, getGeoIntersections(sphere).size(), "Sphere test failed");
 
         // TC02: Sphere with radius 2.5 at (0, 0, -2.5) - 18 intersections
-        cameraBuilder.setLoaction(new Point(0,0,0.5));
+        cameraBuilder.setLocation(new Point(0,0,0.5));
         cameraBuilder.build();
         sphere = new Sphere(2.5, new Point(0, 0, -2.5));
         assertEquals(18, getGeoIntersections(sphere).size(), "Sphere test failed");
@@ -98,7 +98,7 @@ public class IntegrationTests {
 
         // TC03: Plane with normal (0, 0, -1) and point (0, 0, 1) - 0 intersections
 
-        cameraBuilder.setLoaction(new Point(0,0,0));
+        cameraBuilder.setLocation(new Point(0,0,0));
         cameraBuilder.build();
         plane = new Plane(new Point(0, 0, 1), new Vector(0, 0, -1));
         assertEquals(0, getGeoIntersections(plane).size(), "Plane test failed");
