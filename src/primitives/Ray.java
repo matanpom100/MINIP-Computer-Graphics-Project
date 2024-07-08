@@ -16,6 +16,13 @@ import java.util.List;
 
 public class Ray {
 
+
+    /**
+     * The threshold value for the shadow rays
+     */
+    private static final double DELTA = 0.1;
+
+
     final Point head;
     final Vector direction;
 
@@ -28,6 +35,19 @@ public class Ray {
      */
     public Ray(Point head, Vector direction) {
         this.head = head;
+        this.direction = direction.normalize();
+    }
+
+    /**
+     * Ray constructor receiving a point and a vector
+     *
+     * @param point
+     * @param direction
+     * @param normal
+     */
+    public Ray(Point point, Vector direction, Vector normal) {
+        double nv = normal.dotProduct(direction);
+        head = Util.isZero(nv) ? point : nv > 0 ? point.add(normal.scale(DELTA)) : point.add(normal.scale(-DELTA));
         this.direction = direction.normalize();
     }
 
@@ -97,19 +117,19 @@ public class Ray {
 
 
     public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
-
-        GeoPoint close = null;
-
-        double minDistance = Double.POSITIVE_INFINITY;
-
-        for (GeoPoint p : points) {
-            double distance = head.distance(p.point);
+        if(points == null || points.isEmpty()) {
+            return null;
+        }
+        GeoPoint closest = null;
+        double minDistance = Double.MAX_VALUE;
+        for (GeoPoint point : points) {
+            double distance = head.distance(point.point);
             if (distance < minDistance) {
                 minDistance = distance;
-                close = p;
+                closest = point;
             }
         }
-        return close;
+        return closest;
 
     }
 
