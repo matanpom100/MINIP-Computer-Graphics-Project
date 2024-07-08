@@ -118,77 +118,15 @@ public class ReflectionRefractionTests {
 
 
     @Test
-    public void tenGeometriesTest() {
-        // Create a new scene with a black background
-        Scene scene = new Scene("Ten Geometries Test")
-                .setAmbientLight(new AmbientLight(new Color(120, 121, 145), new Double3(0.15)))
-                .setBackground(new Color(205, 205, 200));
-
-        // Add the three spheres on top of each other
-        scene.geometries.add(
-                new Sphere(15, new Point(0, -10, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Sphere(15, new Point(0, 20, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Sphere(15, new Point(0, 50, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-
-                new Sphere(10, new Point(0, 50, 7)).setEmission(new Color(183,197,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-
-                new Sphere(5, new Point(0, 50, 15)).setEmission(new Color(255,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-
-                new Sphere(10, new Point(-25, 20, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Sphere(10, new Point(25, 20, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Sphere(10, new Point(-15, -30, 10)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Sphere(10, new Point(15, -30, -10)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Plane(new Point(0, -70, 0), new Vector(0, 1, 0)) // Plane at y = -50 with normal pointing upwards
-                        .setEmission(new Color(100, 100, 100)) // Gray color
-                        .setMaterial(new Material().setkD(0.9).setkS(0.9).setnShininess(100)) // Material properties
-
-        );
-
-
-        scene.geometries.add(
-                new Triangle(new Point(-25, 20, 0), new Point(-45, -20, 0), new Point(-45, -30, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100)),
-                new Triangle(new Point(-25, 20, 0), new Point(-45, -20, 0), new Point(-45, -30, 0)).setEmission(new Color(0,0,0))
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100))
-        );
-
-
-        // Add lights
-        scene.lights.add(new DirectionalLight(new Color(227,227,218), new Vector(-1, -1, -2)));
-
-        // Set up the camera
-        Camera.Builder cameraBuilder = Camera.getBuilder()
-                .setRayTracer(new SimpleRayTracer(scene))
-                .setLocation(new Point(0, 0, 1000))
-                .setDirection(new Vector(0,0,-1), new Vector(0,1,0))
-                .setViewPlaneSize(200, 200).setViewPlaneDistance(1000);
-
-        // Render the image and write it to a file
-        cameraBuilder.setImageWriter(new ImageWriter("Hero6", 500, 500))
-                .build()
-                .renderImage()
-                .writeToImage();
-    }
-
-    @Test
     public void flowerTest() {
         // Create a new scene with a white background
         Scene scene = new Scene("Flower Test")
                 .setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)))
-                .setBackground(new Color(0, 100, 255));
+                .setBackground(new Color(37, 150, 190));
 
         // Add the center of the flower
         scene.geometries.add(
-                new Sphere(500, new Point(0, 0, -500)).setEmission(new Color(255, 215, 0)) // Gold center
+                new Sphere(500, new Point(0, 0, 0)).setEmission(new Color(255, 215, 0)) // Gold center
                         .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70))
         );
 
@@ -198,8 +136,27 @@ public class ReflectionRefractionTests {
             double x = 700 * Math.cos(radian); // Reduced from 1000 to 700
             double y = 700 * Math.sin(radian); // Reduced from 1000 to 700
             scene.geometries.add(
-                    new Sphere(300, new Point(x, y, -500)).setEmission(new Color(255, 105, 180)) // Hot Pink petals
+                    new Sphere(300, new Point(0, x, y)).setEmission(new Color(205, 105, 80)) // Hot Pink petals
                             .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70))
+            );
+        }
+
+        // Add a bubble in the sky
+        scene.geometries.add(
+                new Sphere(400, new Point(-3000, -500, 500)) // Position of the bubble
+                        .setEmission(new Color(0, 0, 10)) // Light blue color for the bubble
+                        .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
+        );
+
+        for (int i = 0; i < 10; i++) { // Change the number 10 to the number of bubbles you want to add
+            double x = -3000 + Math.random() * 6000; // Random position for each bubble between -3000 and 3000
+            double y = -500 + Math.random() * 1000; // Random position for each bubble between -500 and 500
+            double z = 500 + Math.random() * 1000; // Random position for each bubble between 500 and 1500
+
+            scene.geometries.add(
+                    new Sphere(400, new Point(x*7, y*7, z*2)) // Position of the bubble
+                            .setEmission(new Color(0, 0, 10)) // Light blue color for the bubble
+                            .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
             );
         }
 
@@ -211,7 +168,7 @@ public class ReflectionRefractionTests {
             int y = -rootHeight + i * (2 * rootHeight / rootSegments);
 
             scene.geometries.add(
-                    new Sphere(rootRadius, new Point(0, y-1200, -370))
+                    new Sphere(rootRadius, new Point(0, 0, y-1200))
                             .setEmission(new Color(34, 139, 34)) // Green root
                             .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100))
             );
@@ -219,41 +176,81 @@ public class ReflectionRefractionTests {
 
         // Add the plane that will look like the nature
         scene.geometries.add(
-                new Plane(new Point(0, -2000, 0), new Vector(0, 1, 0)) // Plane at y = -2000 with normal pointing upwards
+                new Plane(new Point(0, 0, -1800), new Vector(0, 0, 1)) // Plane at y = -2000 with normal pointing upwards
                         .setEmission(new Color(34, 139, 34)) // Green color
                         .setMaterial(new Material().setkD(0.9).setkS(0.9).setnShininess(100)) // Material properties
         );
 
-        // Add the plane that will look like the sky
+        // Add a polygon that will be a river with a reflection
+        scene.geometries.add(
+                new Polygon(new Point(4000, 10000, -1798), new Point(7000, 8000, -1798), new Point(-10000, -7000, -1798), new Point(-10000, -5000, -1798))
+                        .setEmission(new Color(15, 15, 240)) // Blue color
+                        .setMaterial(new Material().setkR(0.8)) // Material properties
+        );
 
 
-       scene.geometries.add(
-           new Polygon(new Point(-200, 100, 100), new Point(-200, 100, -100), new Point(200, 100, -100), new Point(200, 100, 100))
-                   .setEmission(new Color(255, 25, 25))// Blue color0
-                   .setMaterial(new Material().setkD(0.1).setkS(0.6).setnShininess(100).setkT(0.6))
 
-
-
-       );
-
-        // Add the polygon that will look like the camera looking through a window
 
         // Add lights
-        scene.lights.add(new DirectionalLight(new Color(255, 255, 255), new Vector(-1, -1, -2)));
+        scene.lights.add(new DirectionalLight(new Color(255, 255, 255), new Vector(1, -1, -1)));
 
         // Set up the camera
         Camera.Builder cameraBuilder = Camera.getBuilder()
                 .setRayTracer(new SimpleRayTracer(scene))
-                .setLocation(new Point(0, 0, 2000))
-                .setDirection(new Vector(0,0,-1), new Vector(0,1,0))
-                .setViewPlaneSize(2000, 2000).setViewPlaneDistance(1000);
+                .setLocation(new Point(-10000, 0, 0))
+                .setDirection(new Vector(1,0,0), new Vector(0,0,1))
+                .setViewPlaneSize(500, 500).setViewPlaneDistance(600);
 
         // Render the image and write it to a file
-        cameraBuilder.setImageWriter(new ImageWriter("Flower", 500, 500))
+        cameraBuilder.setImageWriter(new ImageWriter("Flower", 1000, 1000))
                 .build()
                 .renderImage()
                 .writeToImage();
     }
 
+    @Test
+    public void customSceneTest() {
+        // Create a new scene with a white background
+        Scene scene = new Scene("Flower Test")
+                .setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)))
+                .setBackground(new Color(137, 150, 190));
+
+        // Add the center of the flower
+        scene.geometries.add(
+                new Sphere(500, new Point(0, 0, 0)).setEmission(new Color(55, 105, 0)) // Gold center
+                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70))
+        );
+        scene.geometries.add(
+                new Sphere(700, new Point(0, 0, 0)).setEmission(new Color(55, 15, 10)) // Gold center
+                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70).setkT(0.5))
+        );
+
+
+
+
+        // Add a polygon that will be a river with a reflection
+        scene.geometries.add(
+                new Polygon(new Point(4000, 10000, -1798), new Point(7000, 8000, -1798), new Point(-10000, -7000, -1798), new Point(-10000, -5000, -1798))
+                        .setEmission(new Color(0, 0, 0)) // Blue color
+                        .setMaterial(new Material().setkR(1)) // Material properties
+        );
+
+
+        // Add lights
+        scene.lights.add(new DirectionalLight(new Color(255, 255, 255), new Vector(1, -1, -1)));
+
+        // Set up the camera
+        Camera.Builder cameraBuilder = Camera.getBuilder()
+                .setRayTracer(new SimpleRayTracer(scene))
+                .setLocation(new Point(-10000, 0, 0))
+                .setDirection(new Vector(1, 0, 0), new Vector(0, 0, 1))
+                .setViewPlaneSize(500, 500).setViewPlaneDistance(600);
+
+        // Render the image and write it to a file
+        cameraBuilder.setImageWriter(new ImageWriter("CustomScene", 1000, 1000))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
 
 }

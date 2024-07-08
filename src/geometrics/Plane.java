@@ -57,12 +57,7 @@ public class Plane extends Geometry {
         return normal;
     }
 
-    /**
-     * finds the intersections of a ray with the plane.
-     *
-     * @param ray The ray to find the intersections with.
-     * @return List of the intersection points.
-     */
+
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 
@@ -77,15 +72,39 @@ public class Plane extends Geometry {
             return null;
         }
 
-
         double t = normal.dotProduct(q.subtract(head)) / normal.dotProduct(direction);//calculating the intersection point
         if (alignZero(t) <= 0) {//if the intersection point is behind the head of the ray
             return null;
         }
 
-
         return List.of(new GeoPoint(this, ray.getPoint(t)));//returning the intersection point
 
 
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        Point head = ray.getHead();
+        Vector direction = ray.getDirection();
+
+        if (head.equals(q)) {//if the head of the ray is on the plane
+            return null;
+        }
+
+        if (isZero(direction.dotProduct(normal))) {//if the ray is parallel to the plane
+            return null;
+        }
+
+        double t = normal.dotProduct(q.subtract(head)) / normal.dotProduct(direction);//calculating the intersection point
+
+        if(alignZero(t) <= 0) {//if the intersection point is behind the head of the ray
+            return null;
+        }
+
+        if (alignZero(t - maxDistance) > 0) {//if the intersection point is behind the head of the ray
+            return null;
+        }
+
+        return List.of(new GeoPoint(this, ray.getPoint(t)));//returning the intersection point
     }
 }

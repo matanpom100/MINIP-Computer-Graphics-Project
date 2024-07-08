@@ -25,6 +25,7 @@ public abstract class Intersectable {
     /**
      * A class that represents a point and the geometry it intersects.
      * Used for finding the closest intersection point.
+     *
      * @author Matan and Eitan
      */
     public static class GeoPoint {
@@ -39,8 +40,9 @@ public abstract class Intersectable {
 
         /**
          * Constructor for GeoPoint.
+         *
          * @param geometry The geometry that the point intersects.
-         * @param point The point that intersects the geometry.
+         * @param point    The point that intersects the geometry.
          */
 
         public GeoPoint(Geometry geometry, Point point) {
@@ -65,20 +67,55 @@ public abstract class Intersectable {
         }
 
 
-
     }
 
 
-
+    /**
+     * Find the intersections of a ray with the geometry.
+     * @param ray
+     * @return the list of points where the ray intersects the geometry.
+     */
     public List<Point> findIntersections(Ray ray) {
         var geoList = findGeoIntersections(ray);
         return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
     }
 
 
-    public final   List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+    /**
+     * Find the intersections of a ray with the geometry.
+     * @param ray
+     * @return
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+
+
+    /**
+     * Find the intersections of a ray with the geometry.
+     * @param ray
+     * @return the findGeoIntersections
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
 
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    /**
+     * Find the intersections of a ray with the geometry within a certain distance.
+     * @param ray
+     * @param maxDistance
+     * @return the findGeoIntersectionsHelper
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    /**
+     * Find the intersections of a ray with the geometry within a certain distance.
+     * @param ray
+     * @param maxDistance
+     * @return
+     */
+    protected abstract List<GeoPoint>
+    findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
+
 }
