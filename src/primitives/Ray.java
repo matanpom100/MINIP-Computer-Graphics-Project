@@ -38,6 +38,7 @@ public class Ray {
         this.direction = direction.normalize();
     }
 
+
     /**
      * Ray constructor receiving a point and a vector
      *
