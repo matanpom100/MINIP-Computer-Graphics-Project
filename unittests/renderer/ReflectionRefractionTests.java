@@ -3,10 +3,7 @@ package renderer;
 
 import static java.awt.Color.*;
 
-import geometrics.Plane;
-import geometrics.Polygon;
-import geometrics.Sphere;
-import geometrics.Triangle;
+import geometrics.*;
 import lighting.DirectionalLight;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +40,7 @@ public class ReflectionRefractionTests {
         scene.geometries.add(
                 new Sphere(50d, new Point(0, 0, -50)).setEmission(new Color(BLUE))
                         .setMaterial(new Material().setkD(0.4).setkS(0.3).setnShininess(100).setkT(0.3)),
-                new Sphere(25d, new Point(0, 0, -50)).setEmission(new Color(RED))
+                new Sphere(25d, new Point(0, 0, -50)).setEmission(new Color(GREEN))
                         .setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100)));
         scene.lights.add(
                 new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2))
@@ -208,49 +205,21 @@ public class ReflectionRefractionTests {
                 .writeToImage();
     }
 
-    @Test
-    public void customSceneTest() {
-        // Create a new scene with a white background
-        Scene scene = new Scene("Flower Test")
-                .setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)))
-                .setBackground(new Color(137, 150, 190));
-
-        // Add the center of the flower
-        scene.geometries.add(
-                new Sphere(500, new Point(0, 0, 0)).setEmission(new Color(55, 105, 0)) // Gold center
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70))
-        );
-        scene.geometries.add(
-                new Sphere(700, new Point(0, 0, 0)).setEmission(new Color(55, 15, 10)) // Gold center
-                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70).setkT(0.5))
-        );
 
 
 
 
-        // Add a polygon that will be a river with a reflection
-        scene.geometries.add(
-                new Polygon(new Point(4000, 10000, -1798), new Point(7000, 8000, -1798), new Point(-10000, -7000, -1798), new Point(-10000, -5000, -1798))
-                        .setEmission(new Color(0, 0, 0)) // Blue color
-                        .setMaterial(new Material().setkR(1)) // Material properties
-        );
 
 
-        // Add lights
-        scene.lights.add(new DirectionalLight(new Color(255, 255, 255), new Vector(1, -1, -1)));
 
-        // Set up the camera
-        Camera.Builder cameraBuilder = Camera.getBuilder()
-                .setRayTracer(new SimpleRayTracer(scene))
-                .setLocation(new Point(-10000, 0, 0))
-                .setDirection(new Vector(1, 0, 0), new Vector(0, 0, 1))
-                .setViewPlaneSize(500, 500).setViewPlaneDistance(600);
 
-        // Render the image and write it to a file
-        cameraBuilder.setImageWriter(new ImageWriter("CustomScene", 1000, 1000))
-                .build()
-                .renderImage()
-                .writeToImage();
-    }
+
+
+
+
+
+
+
+
 
 }

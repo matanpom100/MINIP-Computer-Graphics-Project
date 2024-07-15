@@ -1,15 +1,8 @@
 package renderer;
 
-import primitives.Double3;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-import primitives.Color;
+import primitives.*;
 
-import java.util.Locale;
 import java.util.MissingResourceException;
-
-import static primitives.Util.isZero;
 
 /**
  * The camera class
@@ -25,6 +18,9 @@ public class Camera implements Cloneable {
      * The ray tracer
      */
     RayTracerBase rayTracer;
+
+    TargetBoard targetBoard;
+
 
     /**
      * Builder for the camera
@@ -49,6 +45,11 @@ public class Camera implements Cloneable {
          */
         public Builder setImageWriter(ImageWriter imageWriter) {
             camera.imageWriter = imageWriter;
+            return this;
+        }
+
+        public Builder setTargetBoard(TargetBoard targetBoard) {
+            camera.targetBoard = targetBoard;
             return this;
         }
 
@@ -158,6 +159,11 @@ public class Camera implements Cloneable {
             }
 
             camera.right = camera.to.crossProduct(camera.up).normalize(); //calculate the right vector
+
+            if (!Util.isZero(camera.to.dotProduct(camera.up))) { //if the vectors are not orthogonal, throw an exception
+                throw new IllegalArgumentException("The vectors are not orthogonal");
+            }
+            camera.targetBoard = TargetBoard.getBuilder(camera.position,camera.to,camera.up,camera.width,camera.height,camera.distance).build();
             try {
                 return (Camera) camera.clone(); //return a clone of the camera
             } catch (CloneNotSupportedException e) { //if the clone is not supported, throw an exception
@@ -233,32 +239,7 @@ public class Camera implements Cloneable {
         return new Builder();
     }
 
-    /**
-     * Construct a ray through a pixel in the view plane
-     * @param nX number of pixels in the x direction
-     * @param nY number of pixels in the y direction
-     * @param j  the x index of the pixel
-     * @param i  the y index of the pixel
-     * @return the ray through the pixel
-     */
-    public Ray constructRay(int nX, int nY, int j, int i) {
 
-        Point Pc = position.add(to.scale(distance)); //center of the view plane
-
-        double Yi = -(i - (nY - 1) / 2.0) *  height / (double) nY;; // y coordinate of the pixel
-        double Xj = (j - (nX - 1) / 2.0) * width / (double) nX; // x coordinate of the pixel
-
-        Point Pij = Pc;
-
-        if (!isZero(Xj)) { //if Xj is not 0, move right
-            Pij = Pij.add(right.scale(Xj)); // move right
-        }
-        if (!isZero(Yi)) { //if Yi is not 0, move up
-            Pij = Pij.add(up.scale(Yi)); // move up
-        }
-
-        return new Ray(position, Pij.subtract(position)); //return the ray
-    }
 
     /**
      * Print a grid on the view plane
@@ -313,6 +294,10 @@ public class Camera implements Cloneable {
         Ray ray = constructRay(nX, nY, j, i); //construct the ray
         Color color = rayTracer.traceRay(ray); //trace the ray
         imageWriter.writePixel(j, i, color); //write the color to the pixel
+    }
+
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        return targetBoard.constructRay(nX, nY, j, i);
     }
 
 

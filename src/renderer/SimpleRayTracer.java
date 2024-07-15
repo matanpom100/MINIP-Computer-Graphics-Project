@@ -1,7 +1,7 @@
 package renderer;
 
 import geometrics.Intersectable;
-import geometrics.Sphere;
+import geometrics.Intersectable.GeoPoint;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
@@ -95,8 +95,9 @@ public class SimpleRayTracer extends RayTracerBase {
         Material material = gp.geometry.getMaterial();
         Vector v = ray.getDirection();
         Vector n = gp.geometry.getNormal(gp.point);
-        return calcGLobalEffect(constructRefractedRay(gp, v, n), material.kT, level, k).add(calcGLobalEffect(constructReflectedRay(gp, v, n), material.kR, level, k));
-    }
+        return calcAverageColor(constructReflectedRays(gp, v, n, material.kG), level, k, material.kR)
+                .add(calcAverageColor(constructRefractedRays(gp, v, n, material.kB), level, k, material.kT));
+     }
 
     /**
      * Construct the reflected ray
@@ -133,7 +134,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param k
      * @return the effect on the point
      */
-    private Color calcGLobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
+    private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
         Double3 kkx = kx.product(k);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         Intersectable.GeoPoint gp = findClosestIntersection(ray);
@@ -264,4 +265,44 @@ public class SimpleRayTracer extends RayTracerBase {
         }
         return ktr;
     }
+
+
+
+
+
+
+
+    private List<Ray> constructRefractedRays(GeoPoint gp, Vector v, Vector n, double kB) {
+        Ray rfRay = constructRefractedRay(gp, v, n);
+        double res = rfRay.getDirection().dotProduct(n);
+        return kB == 0 ? List.of(rfRay) : TargetBoard.getBuilder(rfRay, kB).build().constructRays().stream()
+                .filter(r -> r.getDirection().dotProduct(n) * res > 0).toList();
+    }
+
+
+    private List<Ray> constructReflectedRays(GeoPoint gp, Vector v, Vector n, double kG) {
+        Ray rfRay = constructReflectedRay(gp, v, n);
+        double res = rfRay.getDirection().dotProduct(n);
+        return kG == 0 ? List.of(rfRay) : TargetBoard.getBuilder(rfRay, kG).build().constructRays().stream()
+                .filter(r -> r.getDirection().dotProduct(n) * res > 0).toList();
+    }
+
+
+    private Color calcAverageColor(List<Ray> rays, int level, Double3 k, Double3 kB) {
+
+        int len = rays.size();
+
+        if (len == 0) return Color.BLACK;
+        if (len == 1) return calcGlobalEffect(rays.get(0), k, level, kB);
+
+        Color color = Color.BLACK;
+
+        for (Ray rT : rays)
+            color = color.add(calcGlobalEffect(rT, k, level, kB));
+
+
+        return color.reduce(rays.size());
+    }
+
+
 }

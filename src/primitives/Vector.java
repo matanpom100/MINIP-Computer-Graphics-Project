@@ -129,4 +129,16 @@ public class Vector extends Point {
     public boolean equals(Object obj) {
         return super.equals(obj) && obj instanceof Vector other;
     }
+
+
+    public Vector makePerpendicularVector(){
+
+        double x = this.xyz.d1;
+        double y = this.xyz.d2;
+        double z = this.xyz.d3;
+        if (x == 0 && y == 0) {
+            return new Vector(1, 0, 0);
+        }
+        return new Vector(y, -x, 0);
+    }
 }

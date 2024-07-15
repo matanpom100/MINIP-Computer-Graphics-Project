@@ -12,11 +12,15 @@ public class Material {
      * The material's transparency and reflection coefficients
      */
     public Double3 kT = Double3.ZERO;
-    /*
-    * The material's refraction coefficient
+
+    /**
+        * The material's refraction coefficient
      */
     public Double3 kR = Double3.ZERO;
 
+    public double  kG ;
+
+    public double kB ;
 
     /**
      * The material's shininess coefficient
@@ -113,6 +117,34 @@ public class Material {
         this.kR = kR;
         return this;
     }
+
+    /**
+     * Set the material's matt coefficient as Double3
+     * @param kG
+     * @return this
+     */
+
+    public Material setkG(double kG) {
+        this.kG = kG;
+        return this;
+    }
+
+    /**
+     * Set the material's matt coefficient as double
+     * @param kB
+     * @return this
+     */
+
+    public Material setkB(double kB) {
+        this.kB = kB;
+        return this;
+    }
+
+
+
+
+
+
 
 
 
