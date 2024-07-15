@@ -32,8 +32,8 @@ class GlossAndBlurTests {
                         new Point(1500, -2500, groundLevel + 1),
                         new Point(1500, riverWidth / 2, groundLevel + 1),
                         new Point(5000, riverWidth / 2, groundLevel + 1)
-                ).setEmission(new Color(0, 0, 255)) // Blue color
-                        .setMaterial(new Material().setkR(0.8).setkB(0.3)) // Semi-transparent and reflective water
+                ).setEmission(new Color(0, 0, 90)) // Blue color
+                        .setMaterial(new Material().setkR(1).setkG(3)) // Semi-transparent and reflective water
         );
         scene.geometries.add(
                 new Polygon(
@@ -41,8 +41,8 @@ class GlossAndBlurTests {
                         new Point(1500, 3500, groundLevel + 1),
                         new Point(1500, 500, groundLevel + 1),
                         new Point(5000, 500, groundLevel + 1)
-                ).setEmission(new Color(0, 0, 255)) // Blue color
-                        .setMaterial(new Material().setkR(1)) // Semi-transparent and reflective water
+                ).setEmission(new Color(0, 0, 90)) // Blue color
+                        .setMaterial(new Material().setkR(1).setkT(0.1).setkB(20)) // Semi-transparent and reflective water
         );
 
 
@@ -73,14 +73,10 @@ class GlossAndBlurTests {
         scene.geometries.add(
                 new Sphere(300, new Point(5000,2500 , groundLevel + 300))
                         .setEmission(new Color(255, 255, 0)) // Yellow color
-                        .setMaterial(new Material().setkD(0.4).setkS(0.4).setnShininess(13))
+                        .setMaterial(new Material().setnShininess(100))
         );
 
-        // add 4 mirrors on the ground
 
-        scene.geometries.add(
-
-        );
 
 
 
