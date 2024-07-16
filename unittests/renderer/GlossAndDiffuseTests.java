@@ -37,12 +37,12 @@ class GlossAndBlurTests {
         );
         scene.geometries.add(
                 new Polygon(
-                        new Point(5000, 3500, groundLevel + 1),
-                        new Point(1500, 3500, groundLevel + 1),
-                        new Point(1500, 500, groundLevel + 1),
-                        new Point(5000, 500, groundLevel + 1)
+                        new Point(4000, 500, groundLevel + 1),        // נקודה תחתונה שמאלית
+                        new Point(4000, 500, groundLevel + 1000),      // נקודה עליונה שמאלית
+                        new Point(4000, 3500, groundLevel + 1000),     // נקודה עליונה ימנית
+                        new Point(4000, 3500, groundLevel + 1)        // נקודה תחתונה ימנית
                 ).setEmission(new Color(0, 0, 90)) // Blue color
-                        .setMaterial(new Material().setkR(1).setkT(0.1).setkB(20)) // Semi-transparent and reflective water
+                        .setMaterial(new Material().setkT(0.3).setkB(10)) // Semi-transparent and reflective water
         );
 
 
