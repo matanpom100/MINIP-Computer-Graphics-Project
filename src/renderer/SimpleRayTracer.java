@@ -269,20 +269,27 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
 
-
-
-
-
-
+    /**
+     *  Construct the refracted rays
+     *  @param gp the intersection point
+     *  @param v the direction of the ray
+     *  @param n the normal to the geometry
+     *  @param kB the refraction coefficient
+     */
     private List<Ray> constructRefractedRays(GeoPoint gp, Vector v, Vector n, double kB) {
         Ray rfRay = constructRefractedRay(gp, v, n);//building the refracted ray
         double res = rfRay.getDirection().dotProduct(n);
-        if (kB>0) System.out.println("kB = " + kB);
         return kB == 0 ? List.of(rfRay) : TargetBoard.getBuilder(rfRay, kB).build().constructRays().stream()
                 .filter(r -> r.getDirection().dotProduct(n) * res > 0).toList();
     }
 
-
+    /**
+     * Construct the reflected rays
+     * @param gp the intersection point
+     * @param v the direction of the ray
+     * @param n the normal to the geometry
+     * @param kG the reflection coefficient
+     */
     private List<Ray> constructReflectedRays(GeoPoint gp, Vector v, Vector n, double kG) {
         Ray rfRay = constructReflectedRay(gp, v, n);
         double res = rfRay.getDirection().dotProduct(n);
@@ -292,11 +299,16 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
 
+    /**
+     * Calculate the average color of the point
+     * @param
+     */
+
     private Color calcAverageColor(List<Ray> rays, int level, Double3 k, Double3 kx) {
 
         Color color = Color.BLACK;
-        if (rays.isEmpty()) return color;
-        for (Ray rT : rays) color = color.add(calcGlobalEffect(rT,k,level, kx));
+        if (rays.isEmpty()) return color;//if there are no rays
+        for (Ray rT : rays) color = color.add(calcGlobalEffect(rT,k,level, kx));//calculate the color of the point
         return color.reduce(rays.size());
     }
 

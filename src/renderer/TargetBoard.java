@@ -16,37 +16,75 @@ import static primitives.Util.isZero;
  */
 public class TargetBoard implements Cloneable {
 
+    /**
+     * The TargetArea's right vector
+     */
     Vector vRight;
 
+    /**
+     * The TargetArea's up vector
+     */
     Vector vUp;
 
+    /**
+     * The TargetArea's to vector
+     */
     Vector vTo;
 
 
-
+    /**
+     * The TargetArea's position
+     */
     Point p0;
 
+    /**
+     * The TargetArea's height
+     */
     double height;
 
+    /**
+     * The TargetArea's width
+     */
     double width;
 
+    /**
+     * The TargetArea's distance
+     */
     double distance;
 
+    /**
+     * The TargetArea's density
+     */
     int density =9;
-
+    /**
+     * The TargetArea's default constructor
+     */
     private TargetBoard() {    }
+
+    /**
+     * The TargetArea's clone method Builder pattern
+     */
     public static class Builder {
 
+        /**
+         * The Builder's Target board object
+         */
         private TargetBoard targetBoard = new TargetBoard();
 
 
 
+        /**
+         * The Builder's constructor with a ray and a size
+         */
         public Builder(Ray ray, double size) {
             setDirection(ray);
             targetBoard.height = targetBoard.width = size;
             targetBoard.distance = 100;
         }
 
+        /**
+         * The Builder's constructor with a point, two vectors, a width, a height and a distance
+         */
         private Builder(Point p0, Vector vTo, Vector vUp, double width, double height, double distance) {
             targetBoard.p0 = p0;
             targetBoard.vTo = vTo.normalize();
@@ -75,18 +113,24 @@ public class TargetBoard implements Cloneable {
         }
 
 
-
+        /**
+         * the Builder's constructor with a TargetBoard
+         * @param targetBoard
+         */
         private Builder(TargetBoard targetBoard) {
             this.targetBoard = targetBoard;
         }
 
-        public Builder calcVTo(Ray ray) {
-            targetBoard.vTo = ray.getDirection().normalize();
-            return this;
-        }
 
+
+
+        /**
+         * Build the TargetBoard
+         * @return the TargetBoard
+         */
         public TargetBoard build() {
 
+            //check if the TargetBoard is initialized
             if (targetBoard.vRight == null) {
                 throw new IllegalStateException("vRight is not initialized");
             }
@@ -113,6 +157,7 @@ public class TargetBoard implements Cloneable {
             }
 
 
+            //return a clone of the targetBoard
             try {
                 return (TargetBoard) targetBoard.clone(); //return a clone of the targetBoard
             } catch (CloneNotSupportedException e) { //if the clone is not supported, throw an exception
@@ -125,27 +170,52 @@ public class TargetBoard implements Cloneable {
 
 
 
+    /**
+     * Get the TargetArea's height
+     * @return the TargetArea's height
+     */
     public double getHeight() {
         return height;
     }
 
+
+    /**
+     * Get the TargetArea's width
+     * @return the TargetArea's width
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * Get the TargetArea's distance
+     * @return the TargetArea's distance
+     */
     public double getDistance() {
         return distance;
     }
 
+    /**
+     * Get the TargetArea's density
+     * @return the TargetArea's density
+     */
     public double getDensity() {
         return density;
     }
 
 
+    /**
+     * Get the TargetArea's builder with a ray and a size -actually set the target area
+     * @return the TargetArea's builder with a ray and a size
+     */
     public static TargetBoard.Builder getBuilder(Ray ray, double size) {
         return new Builder(ray, size);
     }
 
+    /**
+     * Get the TargetArea's builder with a point, two vectors, a width, a height and a distance
+     * @return the TargetArea's builder with a point, two vectors, a width, a height and a distance
+     */
     public static TargetBoard.Builder getBuilder(Point p0, Vector vTo, Vector vUp, double width, double height, double distance) {
         return new Builder(p0, vTo, vUp,width, height,distance);
     }
@@ -165,7 +235,7 @@ public class TargetBoard implements Cloneable {
         double Yi = -(i - (nY - 1) / 2.0) *  height / (double) nY;; // y coordinate of the pixel
         double Xj = (j - (nX - 1) / 2.0) * width / (double) nX; // x coordinate of the pixel
 
-        Point Pij = Pc;
+        Point Pij = Pc;//the pixel point
 
         if (!isZero(Xj)) { //if Xj is not 0, move right
             Pij = Pij.add(vRight.scale(Xj)); // move right
@@ -178,6 +248,10 @@ public class TargetBoard implements Cloneable {
     }
 
 
+    /**
+     * Construct the rays through the pixels in the view plane
+     * @return the rays through the pixels
+     */
     public List<Ray> constructRays() {
 
         List<Ray> rays = new LinkedList<>();
