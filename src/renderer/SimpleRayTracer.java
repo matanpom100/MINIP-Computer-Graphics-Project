@@ -95,9 +95,12 @@ public class SimpleRayTracer extends RayTracerBase {
         Material material = gp.geometry.getMaterial();
         Vector v = ray.getDirection();
         Vector n = gp.geometry.getNormal(gp.point);
-        return calcAverageColor(constructReflectedRays(gp, v, n, material.kG), level, k, material.kR)
-                .add(calcAverageColor(constructRefractedRays(gp, v, n, material.kB), level, k, material.kT));
-     }
+
+        Double3 kR = material.kR;
+        Double3 kT = material.kT;
+        return calcAverageColor(constructReflectedRays(gp, v, n, material.kG), level, k, kR)
+                .add(calcAverageColor(constructRefractedRays(gp, v, n, material.kB), level, k, kT));
+    }
 
     /**
      * Construct the reflected ray
@@ -108,10 +111,9 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Ray constructReflectedRay(Intersectable.GeoPoint gp, Vector v, Vector n) {
         double nv = n.dotProduct(v);
-        if (nv == 0) return null;
 
-        Vector vec = v.subtract(n.scale(2 * nv));
-        return new Ray(gp.point, vec, n);
+
+        return new Ray(gp.point, v.subtract(n.scale(nv*2)), n);
 
     }
 
@@ -267,40 +269,41 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
 
-
-
-
-
-
+    /**
+     *  Construct the refracted rays
+     *  @param gp the intersection point
+     *  @param v the direction of the ray
+     *  @param n the normal to the geometry
+     *  @param kB the refraction coefficient
+     */
     private List<Ray> constructRefractedRays(GeoPoint gp, Vector v, Vector n, double kB) {
-        Ray rfRay = constructRefractedRay(gp, v, n);
+        Ray rfRay = constructRefractedRay(gp, v, n);//building the refracted ray
         double res = rfRay.getDirection().dotProduct(n);
         return kB == 0 ? List.of(rfRay) : TargetBoard.getBuilder(rfRay, kB).build().constructRays().stream()
                 .filter(r -> r.getDirection().dotProduct(n) * res > 0).toList();
     }
 
-
+    /**
+     * Construct the reflected rays
+     * @param gp the intersection point
+     * @param v the direction of the ray
+     * @param n the normal to the geometry
+     * @param kG the reflection coefficient
+     */
     private List<Ray> constructReflectedRays(GeoPoint gp, Vector v, Vector n, double kG) {
         Ray rfRay = constructReflectedRay(gp, v, n);
         double res = rfRay.getDirection().dotProduct(n);
+
         return kG == 0 ? List.of(rfRay) : TargetBoard.getBuilder(rfRay, kG).build().constructRays().stream()
                 .filter(r -> r.getDirection().dotProduct(n) * res > 0).toList();
     }
 
 
-    private Color calcAverageColor(List<Ray> rays, int level, Double3 k, Double3 kB) {
-
-        int len = rays.size();
-
-        if (len == 0) return Color.BLACK;
-        if (len == 1) return calcGlobalEffect(rays.get(0), k, level, kB);
+    private Color calcAverageColor(List<Ray> rays, int level, Double3 k, Double3 kx) {
 
         Color color = Color.BLACK;
-
-        for (Ray rT : rays)
-            color = color.add(calcGlobalEffect(rT, k, level, kB));
-
-
+        if (rays.isEmpty()) return color;
+        for (Ray rT : rays) color = color.add(calcGlobalEffect(rT,k,level, kx));
         return color.reduce(rays.size());
     }
 

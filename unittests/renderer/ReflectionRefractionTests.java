@@ -201,7 +201,7 @@ public class ReflectionRefractionTests {
         // Render the image and write it to a file
         cameraBuilder.setImageWriter(new ImageWriter("Flower", 1000, 1000))
                 .build()
-                .renderImage()
+                .renderImage(17)
                 .writeToImage();
     }
 

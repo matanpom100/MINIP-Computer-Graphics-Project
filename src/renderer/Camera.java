@@ -277,6 +277,21 @@ public class Camera implements Cloneable {
     }
 
     /**
+     * Render the image
+     * @return the camera
+     */
+    public Camera renderImage(int sampleSize) {
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nY; i++) { //for each pixel
+            for (int j = 0; j < nX; j++) {
+                castBeam(nX, nY, j, i,sampleSize); // cast a ray through the pixel
+            }
+        }
+        return this;
+    }
+
+    /**
      * Write the image to a file
      */
     public void writeToImage() {
@@ -292,13 +307,46 @@ public class Camera implements Cloneable {
      */
     private void castRay(int nX, int nY, int j, int i) {
         Ray ray = constructRay(nX, nY, j, i); //construct the ray
+
         Color color = rayTracer.traceRay(ray); //trace the ray
         imageWriter.writePixel(j, i, color); //write the color to the pixel
     }
 
-    public Ray constructRay(int nX, int nY, int j, int i) {
-        return targetBoard.constructRay(nX, nY, j, i);
+    /**
+     * Cast a beam through a pixel
+     * @param nX number of pixels in the x direction
+     * @param nY number of pixels in the y direction
+     * @param j  the x index of the pixel
+     * @param i  the y index of the pixel
+     */
+    private void castBeam(int nX, int nY, int j, int i, int sampleSize) {
+        Color color = constructBeam(nX, nY, j, i,sampleSize); //construct the rays
+        imageWriter.writePixel(j, i, color); //write the color to the pixel
     }
+
+
+    /**
+     * Construct a ray through a pixel
+     * @param nX number of pixels in the x direction
+     * @param nY number of pixels in the y direction
+     * @param j  the x index of the pixel
+     * @param i  the y index of the pixel
+     * @return the ray through the pixel
+     */
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        return targetBoard.constructRay(nX, nY, j, i); //construct the ray (calls from the target board)
+    }
+
+    /**
+     * Construct a beam of rays through the pixels in the view plane
+     *
+     * @return the beam of rays
+     */
+    public Color constructBeam(int nX, int nY, int j, int i, int sampleSize) {
+        return targetBoard.constructBeam(nX, nY, j, i,sampleSize, rayTracer); //construct the beam of rays (calls from the target board)
+    }
+
+
 
 
 }

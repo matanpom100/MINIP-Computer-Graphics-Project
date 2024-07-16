@@ -199,7 +199,7 @@ public class LightsTests {
 
    /** Produce a picture of a sphere lighted by multiple lights */
    @Test
-   public void sphereMultipleLights() {
+   public void sphereMultipleLights1() {
       scene1.geometries.add(sphere);
       scene1.lights.add(new DirectionalLight(new Color(300, 500, 0), new Vector(1, -1, -1)));
       scene1.lights.add(new PointLight(new Color(500, 300, 0), new Point(-50, -50, 50))
@@ -207,9 +207,25 @@ public class LightsTests {
       scene1.lights.add(new SpotLight(new Color(500, 300, 500), new Point(-50, -50, 50), new Vector(1, 1, -1))
               .setkL(0.001).setkQ(0.0001));
 
-      camera1.setImageWriter(new ImageWriter("lightSphereMultiple", 500, 500))
+      camera1.setImageWriter(new ImageWriter("lightSphereMultiple1", 500, 500))
               .build()
               .renderImage()
+              .writeToImage();
+   }
+
+   /** Produce a picture of a sphere lighted by multiple lights */
+   @Test
+   public void sphereMultipleLights2() {
+      scene1.geometries.add(sphere);
+      scene1.lights.add(new DirectionalLight(new Color(300, 500, 0), new Vector(1, -1, -1)));
+      scene1.lights.add(new PointLight(new Color(500, 300, 0), new Point(-50, -50, 50))
+              .setkL(0.001).setkQ(0.0002));
+      scene1.lights.add(new SpotLight(new Color(500, 300, 500), new Point(-50, -50, 50), new Vector(1, 1, -1))
+              .setkL(0.001).setkQ(0.0001));
+
+      camera1.setImageWriter(new ImageWriter("lightSphereMultiple2", 500, 500))
+              .build()
+              .renderImage(17)
               .writeToImage();
    }
 
