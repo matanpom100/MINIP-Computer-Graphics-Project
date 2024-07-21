@@ -2,6 +2,7 @@ package geometrics;
 
 import primitives.Point;
 import primitives.Ray;
+import renderer.BoundingBox;
 
 import java.util.List;
 
@@ -14,12 +15,7 @@ import java.util.List;
 
 public abstract class Intersectable {
 
-    /**
-     * Find the intersections of a ray with the geometry.
-     *
-     * @param ray The ray to find the intersections with.
-     * @return A list of points where the ray intersects the geometry.
-     */
+    protected BoundingBox box;
 
 
     /**

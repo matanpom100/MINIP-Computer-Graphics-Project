@@ -5,6 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
+import renderer.BoundingBox;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class Sphere extends RadialGeometry {
     public Sphere(double radius, Point center) {
         super(radius);
         this.center = center;
+
+        box = new BoundingBox(center.add(new Vector(1, 1, 1).scale(radius)), center.add(new Vector(-1, -1, -1).scale(radius)));
     }
 
 

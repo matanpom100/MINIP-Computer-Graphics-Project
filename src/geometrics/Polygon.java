@@ -8,6 +8,7 @@ import static primitives.Util.isZero;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import renderer.BoundingBox;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -78,7 +79,32 @@ public class Polygon extends Geometry {
             edge2 = vertices[i].subtract(vertices[i - 1]);
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
+
         }
+
+        double xMax = Double.NEGATIVE_INFINITY;
+        double xMin = Double.POSITIVE_INFINITY;
+
+        double yMax = Double.NEGATIVE_INFINITY;
+        double yMin = Double.POSITIVE_INFINITY;
+
+        double zMax = Double.NEGATIVE_INFINITY;
+        double zMin = Double.POSITIVE_INFINITY;
+
+        for (Point p : vertices) {
+
+            xMin = Math.min(xMin, p.getX());
+            xMax = Math.max(xMax, p.getX());
+
+            yMin = Math.min(yMin, p.getY());
+            yMax = Math.max(yMax, p.getY());
+
+            zMin = Math.min(zMin, p.getZ());
+            zMax = Math.max(zMax, p.getZ());
+
+        }
+        box = new BoundingBox(new Point(xMin, yMin, zMin), new Point(xMax, yMax, zMax));
+
     }
 
     @Override

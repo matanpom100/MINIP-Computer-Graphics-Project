@@ -90,4 +90,30 @@ public class Point {
     }
 
 
+    /**
+     * Returns the x value of the point.
+     *
+     * @return the x value of the point
+     */
+    public double getX() {
+        return xyz.d1;
+    }
+
+    /**
+     * Returns the y value of the point.
+     *
+     * @return the y value of the point
+     */
+    public double getY() {
+        return xyz.d2;
+    }
+
+    /**
+     * Returns the z value of the point.
+     *
+     * @return the z value of the point
+     */
+    public double getZ() {
+        return xyz.d3;
+    }
 }
