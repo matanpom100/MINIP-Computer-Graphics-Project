@@ -196,7 +196,8 @@ public class ReflectionRefractionTests {
                 .setRayTracer(new SimpleRayTracer(scene))
                 .setLocation(new Point(-10000, 0, 0))
                 .setDirection(new Vector(1,0,0), new Vector(0,0,1))
-                .setViewPlaneSize(500, 500).setViewPlaneDistance(600);
+                .setViewPlaneSize(500, 500).setViewPlaneDistance(600)
+                .setThreadsCount(4); // Set the number of threads to 4 (for faster rendering)
 
         // Render the image and write it to a file
         cameraBuilder.setImageWriter(new ImageWriter("Flower", 1000, 1000))

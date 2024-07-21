@@ -33,7 +33,7 @@ class GlossAndBlurTests {
                         new Point(1500, riverWidth / 2, groundLevel + 1),
                         new Point(5000, riverWidth / 2, groundLevel + 1)
                 ).setEmission(new Color(0, 0, 90)) // Blue color
-                        .setMaterial(new Material().setkR(1).setkG(3)) // Semi-transparent and reflective water
+                        .setMaterial(new Material().setkR(1).setkG(10)) // Semi-transparent and reflective water
         );
         scene.geometries.add(
                 new Polygon(
@@ -42,7 +42,7 @@ class GlossAndBlurTests {
                         new Point(4000, 3500, groundLevel + 1000),     // נקודה עליונה ימנית
                         new Point(4000, 3500, groundLevel + 1)        // נקודה תחתונה ימנית
                 ).setEmission(new Color(0, 0, 90)) // Blue color
-                        .setMaterial(new Material().setkT(0.3).setkB(10)) // Semi-transparent and reflective water
+                        .setMaterial(new Material().setkT(0.3).setkB(3)) // Semi-transparent and reflective water
         );
 
 
@@ -91,7 +91,7 @@ class GlossAndBlurTests {
                 .setViewPlaneSize(5000, 5000).setViewPlaneDistance(10000);
 
         // Render the image and write it to a file
-        cameraBuilder.setImageWriter(new ImageWriter("SettlementScene", 1000, 1000))
+        cameraBuilder.setImageWriter(new ImageWriter("SScene", 1000, 1000))
                 .build()
                 .renderImage()
                 .writeToImage();

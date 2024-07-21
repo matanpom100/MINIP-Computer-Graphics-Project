@@ -28,7 +28,7 @@ public class TargetBoard implements Cloneable {
 
     double distance;
 
-    int density = 3;
+    int density = 9;
 
     private TargetBoard() {
     }
