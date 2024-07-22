@@ -40,6 +40,11 @@ public class Tube extends RadialGeometry {
         return point.subtract(o).normalize();//the normal vector is the vector from the point to o
     }
 
+    @Override
+    protected void calculateBoundingBox() {
+
+    }
+
     /**
      * Find the intersections of a ray with the tube
      *

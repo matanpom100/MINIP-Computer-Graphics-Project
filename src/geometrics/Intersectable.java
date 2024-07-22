@@ -2,7 +2,6 @@ package geometrics;
 
 import primitives.Point;
 import primitives.Ray;
-import renderer.BoundingBox;
 
 import java.util.List;
 
@@ -65,6 +64,11 @@ public abstract class Intersectable {
 
     }
 
+    /**
+     * Calculate the bounding box of the geometry.
+     */
+    protected abstract void calculateBoundingBox();
+
 
     /**
      * Find the intersections of a ray with the geometry.
@@ -91,6 +95,8 @@ public abstract class Intersectable {
      * @return the findGeoIntersections
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        if (box != null && !box.hasIntersection(ray))
+            return null;
         return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
 
@@ -112,6 +118,10 @@ public abstract class Intersectable {
      */
     protected abstract List<GeoPoint>
     findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
+    public BoundingBox getBoundingBox() {
+        return box;
+    }
 
 
 }

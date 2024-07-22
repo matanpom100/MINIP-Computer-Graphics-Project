@@ -381,7 +381,7 @@ public class Camera implements Cloneable {
     private void castRay(int nX, int nY, int j, int i) {
         Ray ray = constructRay(nX, nY, j, i); //construct the ray
         Color color = rayTracer.traceRay(ray); //trace the ray
-        imageWriter.writePixel(j, i, rayTracer.traceRay(constructRay(nX, nY, j, i)));
+        imageWriter.writePixel(j, i, color); //write the color to the pixel
         pixelManager.pixelDone();
     }
 
@@ -394,8 +394,10 @@ public class Camera implements Cloneable {
      * @param i  the y index of the pixel
      */
     private void castBeam(int nX, int nY, int j, int i, int sampleSize) {
+
         Color color = constructBeam(nX, nY, j, i, sampleSize); //construct the rays
-        imageWriter.writePixel(j, i, rayTracer.traceRay(constructRay(nX, nY, j, i)));
+        imageWriter.writePixel(j, i,color);
+        pixelManager.pixelDone();
     }
 
 

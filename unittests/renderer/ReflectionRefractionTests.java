@@ -115,7 +115,113 @@ public class ReflectionRefractionTests {
 
 
     @Test
-    public void flowerTest() {
+    public void flowerTestWithBVH() {
+
+        Geometries flower = new Geometries();
+        Geometries root = new Geometries();
+        Geometries petals = new Geometries();
+        Geometries center = new Geometries();
+
+        Geometries bubbles = new Geometries();
+
+        Geometries river = new Geometries();
+
+
+
+        // Create a new scene with a white background
+        Scene scene = new Scene("Flower Test")
+                .setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)))
+                .setBackground(new Color(37, 150, 190));
+
+        // Add the center of the flower
+        center.add(
+                new Sphere(500, new Point(0, 0, 0)).setEmission(new Color(255, 215, 0)) // Gold center
+                        .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70))
+        );
+
+        // Add the petals of the flower
+        for (int i = 0; i < 360; i += 45) {
+            double radian = Math.toRadians(i);
+            double x = 700 * Math.cos(radian); // Reduced from 1000 to 700
+            double y = 700 * Math.sin(radian); // Reduced from 1000 to 700
+            petals.add(
+                    new Sphere(300, new Point(0, x, y)).setEmission(new Color(205, 105, 80)) // Hot Pink petals
+                            .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(70))
+            );
+        }
+
+        // Add a bubble in the sky
+        bubbles.add(
+                new Sphere(400, new Point(-3000, -500, 500)) // Position of the bubble
+                        .setEmission(new Color(0, 0, 10)) // Light blue color for the bubble
+                        .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
+        );
+
+//        for (int i = 0; i < 10; i++) { // Change the number 10 to the number of bubbles you want to add
+//            double x = -3000 + Math.random() * 6000; // Random position for each bubble between -3000 and 3000
+//            double y = -500 + Math.random() * 1000; // Random position for each bubble between -500 and 500
+//            double z = 500 + Math.random() * 1000; // Random position for each bubble between 500 and 1500
+//
+//            bubbles.add(
+//                    new Sphere(400, new Point(x*7, y*7, z*2)) // Position of the bubble
+//                            .setEmission(new Color(0, 0, 10)) // Light blue color for the bubble
+//                            .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
+//            );
+//        }
+
+        // Add the root of the flower
+        int rootHeight = 1000; // The height of the root
+        int rootRadius = 50; // The radius of the root
+        int rootSegments = 150; // The number of spheres to use for the root
+        for (int i = 0; i < rootSegments; i++) {
+            int y = -rootHeight + i * (2 * rootHeight / rootSegments);
+
+            root.add(
+                    new Sphere(rootRadius, new Point(0, 0, y-1200))
+                            .setEmission(new Color(34, 139, 34)) // Green root
+                            .setMaterial(new Material().setkD(0.2).setkS(0.6).setnShininess(100))
+            );
+        }
+
+        // Add the plane that will look like the nature
+        scene.geometries.add(
+                new Plane(new Point(0, 0, -1800), new Vector(0, 0, 1)) // Plane at y = -2000 with normal pointing upwards
+                        .setEmission(new Color(34, 139, 34)) // Green color
+                        .setMaterial(new Material().setkD(0.9).setkS(0.9).setnShininess(100)) // Material properties
+        );
+
+        // Add a polygon that will be a river with a reflection
+        river.add(
+                new Polygon(new Point(4000, 10000, -1798), new Point(7000, 8000, -1798), new Point(-10000, -7000, -1798), new Point(-10000, -5000, -1798))
+                        .setEmission(new Color(15, 15, 240)) // Blue color
+                        .setMaterial(new Material().setkR(0.8)) // Material properties
+        );
+
+        flower.add(center, petals, root);
+
+        scene.geometries.add(flower, bubbles, river);
+
+        // Add lights
+        scene.lights.add(new DirectionalLight(new Color(255, 255, 255), new Vector(1, -1, -1)));
+
+        // Set up the camera
+        Camera.Builder cameraBuilder = Camera.getBuilder()
+                .setRayTracer(new SimpleRayTracer(scene))
+                .setLocation(new Point(-10000, 0, 0))
+                .setDirection(new Vector(1,0,0), new Vector(0,0,1))
+                .setViewPlaneSize(500, 500).setViewPlaneDistance(600)
+                .setThreadsCount(4); // Set the number of threads to 4 (for faster rendering)
+
+        // Render the image and write it to a file
+        cameraBuilder.setImageWriter(new ImageWriter("FlowerYesBVH", 1000, 1000))
+                .build()
+                .renderImage(20)
+                .writeToImage();
+    }
+
+
+    @Test
+    public void flowerTestWithoutBVH() {
         // Create a new scene with a white background
         Scene scene = new Scene("Flower Test")
                 .setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)))
@@ -145,17 +251,17 @@ public class ReflectionRefractionTests {
                         .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
         );
 
-        for (int i = 0; i < 10; i++) { // Change the number 10 to the number of bubbles you want to add
-            double x = -3000 + Math.random() * 6000; // Random position for each bubble between -3000 and 3000
-            double y = -500 + Math.random() * 1000; // Random position for each bubble between -500 and 500
-            double z = 500 + Math.random() * 1000; // Random position for each bubble between 500 and 1500
-
-            scene.geometries.add(
-                    new Sphere(400, new Point(x*7, y*7, z*2)) // Position of the bubble
-                            .setEmission(new Color(0, 0, 10)) // Light blue color for the bubble
-                            .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
-            );
-        }
+//        for (int i = 0; i < 10; i++) { // Change the number 10 to the number of bubbles you want to add
+//            double x = -3000 + Math.random() * 6000; // Random position for each bubble between -3000 and 3000
+//            double y = -500 + Math.random() * 1000; // Random position for each bubble between -500 and 500
+//            double z = 500 + Math.random() * 1000; // Random position for each bubble between 500 and 1500
+//
+//            scene.geometries.add(
+//                    new Sphere(400, new Point(x*7, y*7, z*2)) // Position of the bubble
+//                            .setEmission(new Color(0, 0, 10)) // Light blue color for the bubble
+//                            .setMaterial(new Material().setkT(1).setnShininess(100).setkS(0.2).setkD(0.2)) // Material properties with transparency
+//            );
+//        }
 
         // Add the root of the flower
         int rootHeight = 1000; // The height of the root
@@ -196,13 +302,13 @@ public class ReflectionRefractionTests {
                 .setRayTracer(new SimpleRayTracer(scene))
                 .setLocation(new Point(-10000, 0, 0))
                 .setDirection(new Vector(1,0,0), new Vector(0,0,1))
-                .setViewPlaneSize(500, 500).setViewPlaneDistance(600)
-                .setThreadsCount(4); // Set the number of threads to 4 (for faster rendering)
+                .setViewPlaneSize(500, 500).setViewPlaneDistance(600);
+                // .setThreadsCount(4); // Set the number of threads to 4 (for faster rendering)
 
         // Render the image and write it to a file
-        cameraBuilder.setImageWriter(new ImageWriter("Flower", 1000, 1000))
+        cameraBuilder.setImageWriter(new ImageWriter("FlowerNoBVH", 1000, 1000))
                 .build()
-                .renderImage(17)
+                .renderImage(20)
                 .writeToImage();
     }
 

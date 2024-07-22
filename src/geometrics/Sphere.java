@@ -5,7 +5,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
-import renderer.BoundingBox;
 
 import java.util.List;
 
@@ -26,8 +25,7 @@ public class Sphere extends RadialGeometry {
     public Sphere(double radius, Point center) {
         super(radius);
         this.center = center;
-
-        box = new BoundingBox(center.add(new Vector(1, 1, 1).scale(radius)), center.add(new Vector(-1, -1, -1).scale(radius)));
+        calculateBoundingBox();
     }
 
 
@@ -36,6 +34,20 @@ public class Sphere extends RadialGeometry {
         return point.subtract(center).normalize();//return the normal vector
     }
 
+
+    @Override
+    protected void calculateBoundingBox() {
+        double minX = center.getX() - radius;
+        double minY = center.getY() - radius;
+        double minZ = center.getZ() - radius;
+        double maxX = center.getX() + radius;
+        double maxY = center.getY() + radius;
+        double maxZ = center.getZ() + radius;
+        box = new BoundingBox(
+                new Point(minX, minY,minZ),
+                new Point(maxX, maxY,maxZ)
+        );
+    }
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
@@ -109,5 +121,6 @@ public class Sphere extends RadialGeometry {
         }
         return null;
     }
+
 
 }

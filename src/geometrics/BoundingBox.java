@@ -1,35 +1,32 @@
-package renderer;
+package geometrics;
 
 import primitives.Point;
 import primitives.Ray;
 
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class BoundingBox {
 
-    private  final Point min, max;
-
-
+    private final Point min, max;
 
 
     public BoundingBox() {
-        this.min = new Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-        this.max = new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        min = new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        max = new Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
     }
 
-    public BoundingBox(BoundingBox other) {
-        this.min = other.min;
-        this.max = other.max;
+    public BoundingBox(Point min, Point max) {
+        this.min = min;
+        this.max = max;
     }
 
-    public BoundingBox(Point p1, Point p2) {
-        this.min = new Point(Math.min(p1.getX(), p2.getX()), Math.min(p1.getY(), p2.getY()), Math.min(p1.getZ(), p2.getZ()));
-        this.max = new Point(Math.max(p1.getX(), p2.getX()), Math.max(p1.getY(), p2.getY()), Math.max(p1.getZ(), p2.getZ()));
-    }
-
-    public  boolean isIntersect(Ray ray){
+    public boolean hasIntersection(Ray ray) {
         double txmin = (min.getX() - ray.getHead().getX()) / ray.getDirection().getX();// get the t value of the intersection with the min x value
         double txmax = (max.getX() - ray.getHead().getX()) / ray.getDirection().getX(); // get the t value of the intersection with the max x value
 
-        if (txmin > txmax) {//swap the values if txmin is bigger than txmax
+        if (txmin > txmax) { // swap the values if txmin is bigger than txmax
             double temp = txmin;
             txmin = txmax;
             txmax = temp;
@@ -66,9 +63,20 @@ public class BoundingBox {
             return false;
 
         return true;
+
     }
 
 
+    private Point getCenter() {
+        return new Point((min.getX() + max.getX()) / 2, (min.getY() + max.getY()) / 2,
+                (min.getZ() + max.getZ()) / 2);
+    }
 
 
+    public Point getMin() {
+        return min;
+    }
+    public Point getMax() {
+        return max;
+    }
 }

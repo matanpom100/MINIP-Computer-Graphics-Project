@@ -34,6 +34,17 @@ public class Geometries extends Intersectable {
      */
     public Geometries(Intersectable... geometries) {
         add(geometries);
+        calculateBoundingBox();
+    }
+
+    /**
+     * Constructor based on a list of geometries
+     *
+     * @param geometries
+     */
+    public Geometries(List<Intersectable> geometries) {
+        this.geometries.addAll(geometries);
+        calculateBoundingBox();
     }
 
     /**
@@ -45,11 +56,56 @@ public class Geometries extends Intersectable {
         for (Intersectable geometry : geometries) {//for each geometry in the list, add it to the collection
             this.geometries.add(geometry);
         }
+        calculateBoundingBox();
+    }
+
+    /**
+     * Add geometries to the collection
+     * @param geometries
+     */
+    public void add(List<Intersectable> geometries) {
+        this.geometries.addAll(geometries);
+        calculateBoundingBox();
     }
 
 
     @Override
+    protected void calculateBoundingBox() {
+        if (geometries.isEmpty()) {
+            box = null;
+            return;
+        }
+
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double minZ = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        double maxZ = Double.NEGATIVE_INFINITY;
+
+        for (Intersectable geo : geometries) {
+            if (geo.box == null) {
+                geo.calculateBoundingBox();
+            }
+            if (geo.box != null) {
+                minX = Math.min(minX, geo.box.getMin().getX());
+                minY = Math.min(minY, geo.box.getMin().getY());
+                minZ = Math.min(minZ, geo.box.getMin().getZ());
+                maxX = Math.max(maxX, geo.box.getMax().getX());
+                maxY = Math.max(maxY, geo.box.getMax().getY());
+                maxZ = Math.max(maxZ, geo.box.getMax().getZ());
+            }
+        }
+
+        box = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
+
+    }
+
+    @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        if (box != null && !box.hasIntersection(ray))//check if the ray intersects the bounding box
+            return null;//if not, return null (no intersections
+
         List<GeoPoint> intersections = null;//initialize the list of intersections
         for (Intersectable geometry : geometries) {//for each geometry in the collection, find the intersections with the ray
             List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray);
@@ -65,6 +121,9 @@ public class Geometries extends Intersectable {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        if (box != null && !box.hasIntersection(ray))//check if the ray intersects the bounding box
+            return null;//if not, return null (no intersections
+
         List<GeoPoint> intersections = null;//initialize the list of intersections
         for (Intersectable geometry : geometries) {//for each geometry in the collection, find the intersections with the ray
             List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray, maxDistance);
@@ -77,4 +136,6 @@ public class Geometries extends Intersectable {
         }
         return intersections;
     }
+
+
 }

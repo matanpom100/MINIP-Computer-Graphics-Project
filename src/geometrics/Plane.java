@@ -27,6 +27,7 @@ public class Plane extends Geometry {
     public Plane(Point q, Vector normal) {
         this.q = q;
         this.normal = normal;
+        calculateBoundingBox();
     }
 
     /**
@@ -39,6 +40,7 @@ public class Plane extends Geometry {
     public Plane(Point p1, Point p2, Point p3) {
         this.q = p1;
         this.normal = p2.subtract(p1).crossProduct(p3.subtract(p1)).normalize();
+        calculateBoundingBox();
     }
 
 
@@ -57,6 +59,12 @@ public class Plane extends Geometry {
         return normal;
     }
 
+
+    @Override
+    protected void calculateBoundingBox() {
+        box = new BoundingBox(new Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+                new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+    }
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
