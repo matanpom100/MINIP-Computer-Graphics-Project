@@ -71,11 +71,13 @@ public class Geometries extends Intersectable {
 
     @Override
     protected void calculateBoundingBox() {
+        //if the collection is empty, the bounding box is null
         if (geometries.isEmpty()) {
             box = null;
             return;
         }
 
+        //initialize the min and max values to the maximum and minimum possible values
         double minX = Double.POSITIVE_INFINITY;
         double minY = Double.POSITIVE_INFINITY;
         double minZ = Double.POSITIVE_INFINITY;
@@ -83,6 +85,7 @@ public class Geometries extends Intersectable {
         double maxY = Double.NEGATIVE_INFINITY;
         double maxZ = Double.NEGATIVE_INFINITY;
 
+        //for each geometry in the collection, calculate the bounding box
         for (Intersectable geo : geometries) {
             if (geo.box == null) {
                 geo.calculateBoundingBox();
@@ -97,6 +100,7 @@ public class Geometries extends Intersectable {
             }
         }
 
+        //initialize the bounding box
         box = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
 
     }

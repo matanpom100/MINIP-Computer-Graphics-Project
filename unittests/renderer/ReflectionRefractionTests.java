@@ -319,7 +319,45 @@ public class ReflectionRefractionTests {
 
 
 
+    @Test
+    public void testCameraRotation(){
+        Scene scene = new Scene("Test scene").setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15))).setBackground(Color.BLACK);
+        scene.center = new Point(0, 0, 0);
+        Camera.Builder camera = Camera.getBuilder()
+                .setRayTracer(new SimpleRayTracer(scene))
+                .setViewPlaneDistance(100)
+                .setViewPlaneSize(500, 500);
 
+        Point p1 = new Point(0, 0, 0);
+        Point p2 = new Point(-50, -50, -50);
+        Point p3 = new Point(50, -50, -50);
+        Point p4 = new Point(50, 50, 50);
+        Point p5 = new Point(-50, 50, -50);
+        scene.geometries.add(
+                new Triangle(p1, p2, p3).setEmission(new Color(200, 0, 100)).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100)),
+                new Triangle(p1, p3, p4).setEmission(new Color(100, 200, 0)).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100))
+
+        );
+        scene.lights.add(new DirectionalLight(new Color(225, 225, 225), new Vector(-1, -1, -1)));
+
+        // right
+        camera .setLocation(new Point(0, 0, 200)).lookAt(scene.center)
+                .setImageWriter(new ImageWriter("camera rotation test1", 1000, 1000))
+                .build()
+                .renderImage()
+                .writeToImage();
+        camera. setLocation(new Point(-100, -100, 200)).lookAt(scene.center)
+                .setImageWriter(new ImageWriter("camera rotation test2", 1000, 1000))
+                .build()
+                .renderImage()
+                .writeToImage();
+
+        camera. setLocation(new Point(100, 100, -50)).lookAt(scene.center)
+                .setImageWriter(new ImageWriter("camera rotation test3", 1000, 1000))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
 
 
 

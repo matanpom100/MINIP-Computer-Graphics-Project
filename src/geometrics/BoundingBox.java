@@ -7,8 +7,14 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class represents a bounding box in 3D space.
+ */
 public class BoundingBox {
 
+    /**
+     * Tow points that represent the minimum and maximum values of the bounding box.
+     */
     private final Point min, max;
 
 
@@ -22,10 +28,17 @@ public class BoundingBox {
         this.max = max;
     }
 
+    /**
+     * This method creates a bounding box that contains all the points in the list.
+     * @param ray
+     * @return
+     */
     public boolean hasIntersection(Ray ray) {
+        //if the ray is not in the bounding box
         double txmin = (min.getX() - ray.getHead().getX()) / ray.getDirection().getX();// get the t value of the intersection with the min x value
         double txmax = (max.getX() - ray.getHead().getX()) / ray.getDirection().getX(); // get the t value of the intersection with the max x value
 
+        //if the intersection with the min x value is bigger than the intersection with the max x value
         if (txmin > txmax) { // swap the values if txmin is bigger than txmax
             double temp = txmin;
             txmin = txmax;
@@ -35,6 +48,7 @@ public class BoundingBox {
         double tymin = (min.getY() - ray.getHead().getY()) / ray.getDirection().getY();// get the t value of the intersection with the min y value
         double tymax = (max.getY() - ray.getHead().getY()) / ray.getDirection().getY();// get the t value of the intersection with the max y value
 
+        //if the intersection with the min y value is bigger than the intersection with the max y value
         if (tymin > tymax) {//swap the values if tymin is bigger than tymax
             double temp = tymin;
             tymin = tymax;
@@ -67,15 +81,27 @@ public class BoundingBox {
     }
 
 
+    /**
+     * Returns the center of the bounding box.
+     * @return
+     */
     private Point getCenter() {
         return new Point((min.getX() + max.getX()) / 2, (min.getY() + max.getY()) / 2,
                 (min.getZ() + max.getZ()) / 2);
     }
 
-
+    /**
+     * Returns the minimum values of the bounding box.
+     * @return min
+     */
     public Point getMin() {
         return min;
     }
+
+    /**
+     * Returns the maximum values of the bounding box.
+     * @return max
+     */
     public Point getMax() {
         return max;
     }

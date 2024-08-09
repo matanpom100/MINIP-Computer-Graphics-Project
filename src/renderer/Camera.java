@@ -91,6 +91,33 @@ public class Camera implements Cloneable {
             return this;
         }
 
+
+        /**
+         * Set the vectors of the camera
+         * @param p
+         * @return
+         */
+        public Builder lookAt(Point p) {
+            if (p == null) {
+                throw new IllegalArgumentException("The point cannot be null");
+            }
+            if (camera.position.equals(p)) {
+                throw new IllegalArgumentException("The point cannot be the same as the camera position");
+            }
+            camera.to = p.subtract(camera.position).normalize();
+
+            if (camera.to.equals(new Vector(0, 1, 0))) {
+                camera.right = new Vector(1, 0, 0);
+                camera.up = new Vector(0, 0, 1);
+            } else {
+                // vector Y with little angle that way it will be perpendicular to vTo
+                camera.right = (new Vector(0, 1, 0)).crossProduct(camera.to).normalize();
+                camera.up = camera.right.crossProduct(camera.to).normalize();
+            }
+
+            return this;
+        }
+
         /**
          * Set the direction of the camera
          *
@@ -308,7 +335,6 @@ public class Camera implements Cloneable {
                 for (int j = 0; j < nX; j++) {
                     castRay(nX, nY, j, i); // cast a ray through the pixel
                 }
-
             }
         }
         else { // see further... option 2

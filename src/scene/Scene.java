@@ -4,6 +4,7 @@ import geometrics.Geometries;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
+import primitives.Point;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,15 @@ public class Scene {
      */
     public String name;
 
+    /**
+     * The scene's lights - set to an empty list by default
+     */
     public List<LightSource> lights = new LinkedList<>();
+
+    /**
+     * The scene's camera - set to null by default
+     */
+    public Point center = null;
 
     /**
      * The scene's background color
